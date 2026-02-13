@@ -1,26 +1,26 @@
 # Twitter AI Radar
 
 > 追踪美中日三国 AI 领域关键人物的动态
-> 更新：2026-02-12
+> 更新：2026-02-13
 
 ## 当前状态
-Loop 机制已搭建，首次扫描完成。发现 3 条跨国共振信号。关注人物列表初步建立。
+5 轮扫描完成。SaaS 大屠杀从软件蔓延到金融服务。中国 AI 应用拐点到来（豆包日活破亿）。
 
 ## 快速索引
-- 2026-02-12: 首次扫描，发现「AI agent 替代 SaaS」「大厂 AI 投入疯涨」「个人 AI 助手崛起」三条跨国共振
-- 2026-02-12: 中国动态 — 阿里 Qwen3-Coder-Next 开源(80B)、百度千帆登顶 DeepResearch、快手可灵 3.0
-- 2026-02-12: 日本动态 — SaaS 被颠覆恐慌蔓延、Fanuc+NVIDIA 产业 AI
+- 2026-02-13 晚: SaaS 蒸发 1.2 万亿 + OpenAI 退役 GPT-4o + Karpathy 转向 agentic engineering + 豆包日活破亿
+- 2026-02-13: Claude Opus 4.6 冲击波 + Claude Cowork 生态扩张
+- 2026-02-12: 首次扫描，「AI agent 替代 SaaS」三国共振
 
 ## 核心文件
-- `.claude/commands/twitter.md` — 扫描命令定义
-- `.features/twitter-ai-radar/data/2026-02-12.md` — 首次扫描结果
+- `.features/twitter-ai-radar/data/2026-02-13-2.md` — 最新动态
+- `.features/twitter-ai-radar/data/2026-02-13.md` — 当日第一轮
 - `loop/state.md` — 关注人物列表
 
 ## Gotchas
-- Twitter/X 搜索结果通过 WebSearch 获取，可能不完整
-- 中国 AI 牛人很多在微博/知乎，需要搜中文源
-- 日文内容需要翻译成中文摘要
-- 跨国共振（多国同时讨论同一话题）= 强信号，重点关注
+- "AI 替代 SaaS"已从理论变为市场事实（1.2 万亿蒸发是铁证）
+- 中国动态看微博/新华网/澎湃比 Twitter 更准
+- Karpathy 是风向标，他的术语变化（vibe coding → agentic engineering）值得紧跟
+- 豆包日活破亿 = 中国 AI 应用拐点，时间窗口有限
 
 ## 索引
 - decisions/ - 设计决策
