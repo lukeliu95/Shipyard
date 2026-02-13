@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemoBrain</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- 头部 -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">🧠</span>
+      <h1>MemoBrain</h1>
+    </div>
+    <span class="memory-count" id="memoryCount">0 条记忆</span>
+  </header>
+
+  <!-- 添加记忆 -->
+  <div class="add-section">
+    <textarea
+      id="newMemory"
+      placeholder="添加一条记忆...&#10;例如：我是产品经理，专注 AI 产品设计"
+      rows="2"
+    ></textarea>
+    <div class="add-row">
+      <input
+        id="newTags"
+        type="text"
+        placeholder="标签（用空格分隔）"
+        class="tag-input"
+      >
+      <button id="addBtn" class="btn-add">添加</button>
+    </div>
+  </div>
+
+  <!-- 搜索 -->
+  <div class="search-section">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="搜索记忆..."
+      class="search-input"
+    >
+  </div>
+
+  <!-- 记忆列表 -->
+  <div class="memory-list" id="memoryList">
+    <div class="empty-state" id="emptyState">
+      <p>还没有记忆</p>
+      <p class="empty-hint">添加你希望 AI 记住的信息</p>
+    </div>
+  </div>
+
+  <!-- 底部操作 -->
+  <footer class="footer">
+    <button id="injectAllBtn" class="btn-inject">注入全部记忆到对话</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
