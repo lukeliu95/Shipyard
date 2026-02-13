@@ -5,7 +5,7 @@
 
 ## 上次运行
 
-- 时间：2026-02-13 evening
+- 时间：2026-02-13 late night
 - 类型：完整循环（/radar）
 - 状态：完成
 
@@ -15,6 +15,7 @@
 
 | 时间 | 类型 | GitHub 发现 | Twitter 发现 | 信号数 | 备注 |
 |------|------|------------|-------------|--------|------|
+| 2026-02-13 深夜 | radar | 6 个项目 | 8 条动态 | 5 个信号 | 重大：Anthropic 报告定义 Agentic Engineering + OpenAI 指控 DeepSeek + 豆包春晚 |
 | 2026-02-13 晚 | radar | 8 个项目 | 6 条动态 | 5 个信号 | 重大：shannon 爆发 + SaaS 大屠杀蔓延 + 豆包日活破亿 |
 | 2026-02-13 | radar | 5 个项目 | 6 条动态 | 4 个信号 | Cowork 插件生态 + Generative UI 爆发 |
 | 2026-02-12 晚 | radar | 6 个项目 | 8+ 条动态 | 4 个信号 | OpenClaw 安全危机 + Vibe Coding Spec |
@@ -37,7 +38,10 @@
 - [ ] 设计 vibe coding spec 模板格式的原型 → 方向进化为 "agentic engineering"
 - [ ] 观察春节后中国 AI 应用用户反馈（豆包日活数据、千问生态效果）
 - [ ] 关注 DeepSeek V4 发布动态（传闻 2月中旬）**← 新**
-- [ ] 写 "从 Vibe Coding 到 Agentic Engineering" 中文指南 **← 新 · 内容变现**
+- [ ] 写 "从 Vibe Coding 到 Agentic Engineering" 中文指南 **← 最高优先 · 内容变现 · 窗口期**
+- [ ] 跟踪 OpenAI vs DeepSeek 蒸馏指控后续（可能影响开源政策）**← 新**
+- [ ] 关注 Anthropic 多 Agent API 开放动向 **← 新**
+- [ ] 春节后评估中国 AI 应用用户留存（豆包春晚效果、千问免单转化）**← 新**
 
 ## 关注列表
 

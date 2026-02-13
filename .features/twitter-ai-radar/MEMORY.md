@@ -4,9 +4,10 @@
 > 更新：2026-02-13
 
 ## 当前状态
-5 轮扫描完成。SaaS 大屠杀从软件蔓延到金融服务。中国 AI 应用拐点到来（豆包日活破亿）。
+6 轮扫描完成。中美 AI 对抗升级（OpenAI 指控 DeepSeek 蒸馏）。中国春节 AI 获客大战爆发（豆包春晚+千问免单）。
 
 ## 快速索引
+- 2026-02-13 深夜: OpenAI 指控 DeepSeek 蒸馏 + Anthropic 扩大免费版 + 豆包春晚上线 + 千问 1.2 亿笔 + Isenberg 预测裁员 10 万
 - 2026-02-13 晚: SaaS 蒸发 1.2 万亿 + OpenAI 退役 GPT-4o + Karpathy 转向 agentic engineering + 豆包日活破亿
 - 2026-02-13: Claude Opus 4.6 冲击波 + Claude Cowork 生态扩张
 - 2026-02-12: 首次扫描，「AI agent 替代 SaaS」三国共振

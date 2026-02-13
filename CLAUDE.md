@@ -112,12 +112,28 @@ data/ 目录会越来越大。当某个 feature 的 data/ 超过 5 个文件时�
 
 ## Loop 机制
 
-我有一套信息雷达循环，通过 `.claude/commands/` 下的命令触发：
+我有一套信息雷达循环，有两种触发方式：
+
+### 手动触发（通过命令）
 
 - `/radar` — 完整循环：GitHub → Twitter → 信号分析 → 简报
 - `/github` — 只扫 GitHub trending
 - `/twitter` — 只看 Twitter/X AI 动态
 - `/signal` — 只分析赚钱信号
+
+### 自动触发（通过 launchd 定时任务）
+
+每天 09:00 自动执行完整 radar 循环。流程：
+
+```
+launchd 触发 → radar 扫描 → 生成摘要 → macOS 通知 → 发邮件到 Gmail
+```
+
+配置文件在 `scheduler/` 目录：
+- `run-task.sh` — 调度器脚本（负责调用 claude、记录日志、发通知、发邮件）
+- `send-email.sh` — 邮件发送（通过 AppleScript 调用 Mail.app）
+- `com.bill-v1.radar.plist` — launchd 配置
+- `setup-launchd.md` — 详细配置记录和管理命令
 
 每次循环的结果存入对应 feature 的 `data/`，状态更新到 `loop/state.md`。
 
