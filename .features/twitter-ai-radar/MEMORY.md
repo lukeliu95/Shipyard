@@ -1,30 +1,26 @@
 # Twitter AI Radar
 
-> 追踪美国、中国、日本三国 AI 领域关键人物的 Twitter/X 动态
+> 追踪美中日三国 AI 领域关键人物的动态
 > 更新：2026-02-12
 
 ## 当前状态
-Loop 机制已搭建。通过 `/twitter` 命令触发扫描，或通过 `/radar` 执行完整循环。
-关注人物列表待建立（在 `loop/state.md` 中维护）。
+Loop 机制已搭建，首次扫描完成。发现 3 条跨国共振信号。关注人物列表初步建立。
+
+## 快速索引
+- 2026-02-12: 首次扫描，发现「AI agent 替代 SaaS」「大厂 AI 投入疯涨」「个人 AI 助手崛起」三条跨国共振
+- 2026-02-12: 中国动态 — 阿里 Qwen3-Coder-Next 开源(80B)、百度千帆登顶 DeepResearch、快手可灵 3.0
+- 2026-02-12: 日本动态 — SaaS 被颠覆恐慌蔓延、Fanuc+NVIDIA 产业 AI
 
 ## 核心文件
 - `.claude/commands/twitter.md` — 扫描命令定义
-- `.claude/commands/radar.md` — 主循环命令（包含 Twitter 扫描）
-- `.features/twitter-ai-radar/data/` — 每日扫描结果（按日期命名）
-- `loop/state.md` — 循环状态追踪 + 关注人物列表
-
-## 工作流
-1. 触发扫描（`/twitter` 或 `/radar`）
-2. WebSearch 搜索 Twitter/X AI 动态 + 关注人物
-3. 按国家分类，识别跨国共振信号
-4. 结果写入 `data/YYYY-MM-DD.md`
-5. 更新 `loop/state.md`
+- `.features/twitter-ai-radar/data/2026-02-12.md` — 首次扫描结果
+- `loop/state.md` — 关注人物列表
 
 ## Gotchas
-- Twitter/X 的搜索结果通过 WebSearch 获取，可能不完整
-- 中国 AI 牛人很多在微博/知乎而不是 Twitter，需要同时搜索中文源
-- 日本 AI 圈子相对小，但有独特视角（特别是应用层面）
-- 日文内容需要翻译成中文摘要给 Luke
+- Twitter/X 搜索结果通过 WebSearch 获取，可能不完整
+- 中国 AI 牛人很多在微博/知乎，需要搜中文源
+- 日文内容需要翻译成中文摘要
+- 跨国共振（多国同时讨论同一话题）= 强信号，重点关注
 
 ## 索引
 - decisions/ - 设计决策
