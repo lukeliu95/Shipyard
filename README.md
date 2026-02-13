@@ -28,8 +28,6 @@ Bill_v1 是一套**基于 Claude Code 的自我进化方案**。
 - **每日自动简报** —— 每天 9 点自动扫描，macOS 通知 + 邮件推送结果
 - **自我进化** —— 每次运行后更新记忆，下次运行时接着上次的进度
 
-两天内完成了 7 轮扫描，发现了 10+ 个赚钱信号，深挖了 AI 记忆赛道（6 竞品分析），并搭建了完整的自动化调度系统。
-
 ---
 
 ## 系统架构
@@ -44,7 +42,12 @@ Bill_v1/
 ├── loop/                        # 循环引擎
 │   ├── state.md                 # 运行状态、待处理项、关注列表
 │   ├── last-run.log             # 最近一次完整输出
-│   └── last-run-summary.md      # 最近一次摘要（用于通知和邮件）
+│   ├── last-run-summary.md      # 最近一次摘要（用于通知和邮件）
+│   └── agents/                  # Agent 运行状态（每次刷新）
+│       ├── github-scout.status
+│       ├── twitter-radar.status
+│       ├── signal-analyzer.status
+│       └── briefing-generator.status
 ├── .features/                   # Feature Memory —— 每个功能模块的记忆
 │   ├── github-learning/
 │   │   ├── MEMORY.md            # 当前状态 + 快速索引 + 已知的坑
@@ -55,17 +58,23 @@ Bill_v1/
 │   │   └── ...（同上）
 │   └── money-signal/
 │       └── ...（同上）
-├── scheduler/                   # 自动调度系统
-│   ├── run-task.sh              # 调度器（触发扫描 → 通知 → 邮件）
+├── scheduler/                   # 多 Agent 编排系统
+│   ├── run-task.sh              # 编排器（并行调度 → 门控 → 通知 → 邮件）
+│   ├── agents/                  # Agent Prompt 文件
+│   │   ├── github-scout.md      # GitHub 趋势扫描
+│   │   ├── twitter-radar.md     # Twitter/X AI 动态
+│   │   ├── signal-analyzer.md   # 赚钱信号分析
+│   │   └── briefing-generator.md # 简报生成 + 状态更新
 │   ├── send-email.sh            # 邮件发送（AppleScript + Mail.app）
+│   ├── md2plain.py              # Markdown → 纯文本（邮件可读性）
 │   ├── com.bill-v1.radar.plist  # launchd 定时任务配置
 │   └── setup-launchd.md         # 配置记录和管理命令
 ├── logs/                        # 运行日志
-│   └── task-history.log         # 定时任务执行历史
+│   ├── task-history.log         # 编排器执行历史
+│   └── agent-*.log              # 各 Agent 详细输出
 ├── Docs/                        # 设计文档
-│   └── claude-code-memory-final.md  # 记忆增强方案设计稿
-├── .claude/commands/            # Loop 命令（手动触发）
-│   ├── radar.md                 # /radar —— 完整循环
+├── .claude/commands/            # Loop 命令（手动触发，向后兼容）
+│   ├── radar.md                 # /radar —— 完整循环（单 agent 模式）
 │   ├── github.md                # /github —— 只扫 GitHub
 │   ├── twitter.md               # /twitter —— 只看 Twitter
 │   └── signal.md                # /signal —— 只分析赚钱信号
@@ -74,7 +83,7 @@ Bill_v1/
 
 ---
 
-## 四大机制
+## 五大机制
 
 ### 1. Memory（记忆）
 
@@ -102,18 +111,16 @@ Claude Code 的记忆存在文件里。三层结构，渐进式读取：
 
 信息雷达的持续运转机制，支持手动和自动两种触发方式：
 
-**手动触发：** 通过 `/radar` 等命令在会话中执行。
+**手动触发：** 通过 `/radar` 等命令在会话中执行（单 agent 模式，向后兼容）。
 
-**自动触发：** 通过 macOS launchd 定时任务，每天 09:00 自动执行完整循环。
+**自动触发：** 通过 macOS launchd 定时任务，每天 09:00 自动执行多 Agent 编排。
 
 ```
 触发（自动 09:00 / 手动 /radar）
-  → Step 1: GitHub 扫描（WebSearch）
-  → Step 2: Twitter/AI 动态扫描
-  → Step 3: 交叉分析，提炼赚钱信号
-  → Step 4: 输出简报 + 生成摘要
-  → Step 5: 更新记忆 + 状态
-  → Step 6: macOS 通知 + 邮件发送
+  → Phase 1（并行）: GitHub Scout + Twitter Radar
+  → Phase 2（串行）: Signal Analyzer（交叉分析）
+  → Phase 3（串行）: Briefing Generator（简报 + 状态更新）
+  → macOS 通知 + 邮件发送
   → 等待下次触发
 ```
 
@@ -121,38 +128,65 @@ Claude Code 的记忆存在文件里。三层结构，渐进式读取：
 
 **不是后台服务。** 每次会话是一次量子跃迁。Loop 的连续性靠 `state.md` 保证，自动化靠 launchd 保证。
 
-### 3. Scheduler（自动调度）
+### 3. Multi-Agent 编排
+
+自动调度采用多 Agent 并行架构，每个 Agent 职责单一、上下文最小化：
+
+```
+Phase 1（并行）: GitHub Scout + Twitter Radar
+        ↓ 门控：至少一个成功才继续
+Phase 2（串行）: Signal Analyzer（读 Phase 1 输出）
+        ↓
+Phase 3（串行）: Briefing Generator（汇总 → 简报 → 更新状态）
+```
+
+**Agent 间通信：** 文件系统即消息队列。每个 Agent 写 `loop/agents/{name}.status`，下游 Agent 读 status 获取数据路径。
+
+**错误处理：**
+- Phase 1 两个 scout 独立运行，互不影响
+- 至少一个成功才进入 Phase 2
+- 每个 Agent 10 分钟超时
+- 崩溃检测：status 文件缺失则标记 crashed
+- Briefing Generator 始终运行，确保状态报告
+
+**写冲突避免：** 每个 Agent 只写自己 feature 的文件，只有 Briefing Generator 写全局 state.md。
+
+### 4. Scheduler（自动调度）
 
 基于 macOS 原生能力的自动化系统，零外部依赖：
 
 ```
 launchd（每天 09:00）
-  → run-task.sh（调度器）
-      → claude -p（无头模式执行 radar）
+  → run-task.sh（多 Agent 编排器）
+      → claude -p × 4（各 Agent 无头模式并行/串行执行）
       → osascript（macOS 通知 + Glass 提示音）
-      → send-email.sh（AppleScript 调用 Mail.app 发邮件）
+      → send-email.sh（纯文本邮件，md2plain.py 转换）
 ```
 
 特性：
 - 电脑休眠醒来后自动补跑错过的任务
 - 扫描完成后 macOS 右上角弹通知
-- 自动发送简报邮件到 Gmail
+- 自动发送纯文本简报邮件到 Gmail
 - 所有执行记录写入 `logs/task-history.log`
+- 各 Agent 详细输出写入 `logs/agent-*.log`
 
 管理命令：
 ```bash
 # 查看服务状态
 launchctl list | grep bill
 
-# 手动触发测试
+# 手动触发完整测试
 bash scheduler/run-task.sh radar
 
 # 停止/重新加载
 launchctl unload ~/Library/LaunchAgents/com.bill-v1.radar.plist
 launchctl load ~/Library/LaunchAgents/com.bill-v1.radar.plist
+
+# 查看各 Agent 运行状态
+cat loop/agents/*.status
 ```
 
-### 4. 自我进化协议
+### 5. 自我进化协议
 
 写在 CLAUDE.md 里的行为准则，让 Claude Code 在每次会话中自动遵循：
 
@@ -271,7 +305,7 @@ mkdir -p .features/your-feature/{data,decisions,changelog}
 
 ## 设计哲学
 
-**不造新系统，增强原生系统。** Claude Code 已经有完整的记忆系统（CLAUDE.md、Auto Memory、Rules）。我们在上面加了四样东西：Feature Memory、Loop 状态、自动调度、自我进化协议。
+**不造新系统，增强原生系统。** Claude Code 已经有完整的记忆系统（CLAUDE.md、Auto Memory、Rules）。我们在上面加了五样东西：Feature Memory、Loop 状态、Multi-Agent 编排、自动调度、自我进化协议。
 
 **用 Markdown 而不是数据库。** Markdown 是 Claude Code 的母语。不需要 SQLite、不需要向量数据库、不需要 API。纯文件，纯文本。
 

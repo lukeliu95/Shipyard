@@ -1,6 +1,6 @@
 #!/bin/bash
 # Bill_v1 邮件发送工具
-# 通过 AppleScript 调用 Mail.app 发送雷达简报
+# 通过 AppleScript 调用 Mail.app 发送纯文本格式雷达简报
 # 用法: bash scheduler/send-email.sh [摘要文件路径]
 
 PROJECT_DIR="/Users/lukeliu/Desktop/Claude/Bill_v1"
@@ -17,8 +17,16 @@ fi
 TODAY=$(date '+%Y-%m-%d')
 SUBJECT="Alan 雷达简报 | $TODAY"
 
-# 转义内容中的特殊字符（引号和反斜杠）
-CONTENT=$(cat "$SUMMARY_FILE" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+# Markdown → 可读纯文本转换（去掉 #、**、| 等格式符号）
+CONTENT=$(python3 "$PROJECT_DIR/scheduler/md2plain.py" < "$SUMMARY_FILE" 2>/dev/null)
+
+# 如果转换失败，回退为原始内容
+if [ $? -ne 0 ] || [ -z "$CONTENT" ]; then
+    CONTENT=$(cat "$SUMMARY_FILE")
+fi
+
+# 转义 AppleScript 中的特殊字符（反斜杠和引号）
+CONTENT=$(echo "$CONTENT" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
 
 # 通过 AppleScript 用 Mail.app 发送
 osascript -e "

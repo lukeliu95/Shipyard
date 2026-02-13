@@ -123,19 +123,30 @@ data/ 目录会越来越大。当某个 feature 的 data/ 超过 5 个文件时�
 
 ### 自动触发（通过 launchd 定时任务）
 
-每天 09:00 自动执行完整 radar 循环。流程：
+每天 09:00 自动执行多 Agent 并行编排。流程：
 
 ```
-launchd 触发 → radar 扫描 → 生成摘要 → macOS 通知 → 发邮件到 Gmail
+launchd 触发 → run-task.sh 编排器
+  Phase 1（并行）: GitHub Scout + Twitter Radar
+          ↓ 门控：至少一个成功
+  Phase 2（串行）: Signal Analyzer（读 Phase 1 输出）
+          ↓
+  Phase 3（串行）: Briefing Generator（汇总 → 简报 → 更新状态）
+          ↓
+  通知 + 邮件（bash 层）
 ```
+
+Agent 间通过文件系统通信：每个 agent 完成后写 `loop/agents/{name}.status`，下游 agent 读 status 获取数据路径。
 
 配置文件在 `scheduler/` 目录：
-- `run-task.sh` — 调度器脚本（负责调用 claude、记录日志、发通知、发邮件）
-- `send-email.sh` — 邮件发送（通过 AppleScript 调用 Mail.app）
+- `run-task.sh` — 多 Agent 编排器（并行调度、门控、超时、崩溃检测）
+- `agents/` — 4 个 Agent prompt 文件（github-scout、twitter-radar、signal-analyzer、briefing-generator）
+- `send-email.sh` — 邮件发送（AppleScript + Mail.app）
+- `md2plain.py` — Markdown → 纯文本转换（邮件可读性优化）
 - `com.bill-v1.radar.plist` — launchd 配置
 - `setup-launchd.md` — 详细配置记录和管理命令
 
-每次循环的结果存入对应 feature 的 `data/`，状态更新到 `loop/state.md`。
+每个 agent 只写自己 feature 的文件，只有 Briefing Generator 写全局 `loop/state.md`。
 
 ## 学习机制
 
