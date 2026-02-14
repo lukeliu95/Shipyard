@@ -5,9 +5,10 @@
 
 ## 上次运行
 
-- 时间：2026-02-14 afternoon
-- 类型：多 Agent 完整循环（/radar）
-- 状态：完成
+- 时间：2026-02-14 12:00
+- 类型：多 Agent 定时任务（launchd）
+- 运行编号：2026-02-14-1200
+- 状态：完成（3/3 agent 成功）
 
 ## 运行历史
 
@@ -15,6 +16,9 @@
 
 | 时间 | 类型 | GitHub 发现 | Twitter 发现 | 信号数 | 备注 |
 |------|------|------------|-------------|--------|------|
+| 2026-02-14 12:00 | 定时任务（2026-02-14-1200） | 12 个项目 | 15 条动态 | 6 个信号（3 强） | spec-kit 69K 星横空出世，PM 版 spec-kit 方向成型，三个信号汇聚成一个产品 |
+| 2026-02-14 11:00 | 定时任务（2026-02-14-1100） | 12 个项目 | 14 条动态 | 6 个信号（3 强） | Vibe Coding 配套生态首次整合爆发 + DeepSeek V4 三天后发布 + 记忆信号角度调整为跨平台同步 |
+| 2026-02-14 10:00 | 定时任务（2026-02-14-1000） | 10 个项目 | 14 条动态 | 6 个信号（3 强） | 重大：Beads 16.2K 爆发 + YC "PM 的 Cursor" + Superpowers 51K 翻倍 |
 | 2026-02-14 下午 | radar（多 Agent） | 10 个项目 | 14 条动态 | 6 个信号（3 强） | 重大：Agent 编排赛道爆发 + 中国四大模型同周发布 + vibe-kanban 翻倍 |
 | 2026-02-13 深夜 | radar | 6 个项目 | 8 条动态 | 5 个信号 | 重大：Anthropic 报告定义 Agentic Engineering + OpenAI 指控 DeepSeek + 豆包春晚 |
 | 2026-02-13 晚 | radar | 8 个项目 | 6 条动态 | 5 个信号 | 重大：shannon 爆发 + SaaS 大屠杀蔓延 + 豆包日活破亿 |
@@ -43,9 +47,18 @@
 - [ ] 跟踪 OpenAI vs DeepSeek 蒸馏指控后续（可能影响开源政策）
 - [ ] 关注 Anthropic 多 Agent API 开放动向
 - [ ] 春节后评估中国 AI 应用用户留存（豆包春晚效果、千问免单转化）
-- [ ] 试用 vibe-kanban，评估多 Agent 编排工具的中文本地化机会 **← 新 · 强信号**
-- [ ] 调研中文开发者社区对多 Agent 编排的讨论热度 **← 新**
-- [ ] 关注 Chrome DevTools MCP，评估集成到 Bill_v1 的可行性 **← 新**
+- [ ] 试用 vibe-kanban，评估多 Agent 编排工具的中文本地化机会
+- [ ] 调研中文开发者社区对多 Agent 编排的讨论热度
+- [ ] 关注 Chrome DevTools MCP，评估集成到 Bill_v1 的可行性
+- [ ] 研究 Beads 架构（依赖图 + 语义压缩），评估 Agent 记忆产品方向 **← 最高优先 · 强信号**
+- [ ] 梳理 Luke 的 PM 工作流痛点，评估 "PM 的 Cursor" 产品可行性 **← 新 · YC 级信号**
+- [ ] 关注 Coinbase Agentic Wallets 开发者采纳情况 **← 新**
+- [ ] 体验 PicoClaw（$10 边缘 AI agent），评估 vibe coding 配套工具方向 **← 新**
+- [ ] 关注 DeepSeek V4 Engram 记忆技术细节（2月17日发布）**← 紧迫 · 决策节点**
+- [ ] 评估 x402 vs AP2 协议竞争，关注"Agent 费用管理"需求 **← 新**
+- [ ] 研究 spec-kit 的 slash command 架构，设计"PM 版 spec-kit"MVP **← 新 · 最高优先**
+- [ ] 体验 Rowboat（知识图谱 + Obsidian），学习"记忆积累"模式 **← 新**
+- [ ] 关注 NanoClaw 增长（安全版 OpenClaw），评估 OpenClaw 生态分化趋势 **← 新**
 
 ## 关注列表
 
@@ -63,6 +76,7 @@
 - **Skills/Plugins 标准化**
 - **多 Agent 编排**（新增重点领域）
 - **MCP 生态扩展**（新增）
+- **Vibe Coding 配套工具生态**（新增重点 — Agent 仪表盘/通知/成本优化）
 
 ### GitHub 持续追踪项目
 - openclaw — 个人 AI 助手标杆（注意：安全危机中）
@@ -81,8 +95,19 @@
 - **badlogic/pi-mono** — 全栈 Agent 工具包
 - **ChromeDevTools/chrome-devtools-mcp** — Chrome 官方 MCP server（24.6K 星）（新增）
 - **BloopAI/vibe-kanban** — 多 Agent 编排看板（21.2K 星，翻倍增长）（新增）
-- **SynkraAI/aios-core** — Agentic Agile 多 Agent 协作（339 星，早期）（新增）
-- **THUDM/slime** — 清华智谱 RL 训练框架（4K 星）（新增）
+- **SynkraAI/aios-core** — Agentic Agile 多 Agent 协作（438 星，日增 25%）（持续跟踪）
+- **sipeed/picoclaw** — $10 RISC-V 边缘 AI agent（6K 星，4天爆发）（新增）
+- **PeonPing/peon-ping** — Vibe coding 声音通知 + CESP 标准（1.9K 星）（新增）
+- **THUDM/slime** — 清华智谱 RL 训练框架（4K 星）
+- **steveyegge/beads** — Agent 持久记忆系统（16.2K 星，6 天爆发）（新增 · 重点）
+- **VoltAgent/awesome-agent-skills** — 跨平台 Agent Skills 目录（6.9K 星）（新增）
+- **obra/superpowers** — Agentic Skills 框架（51K 星，翻倍）（新增 · 重点）
+- **github/spec-kit** — GitHub 官方 Spec-Driven Development 工具包（69.4K 星）（新增 · 重点）
+- **qwibitai/nanoclaw** — 安全版 OpenClaw，容器隔离（7.8K 星，一周爆发）（新增）
+- **memovai/mimiclaw** — $5 ESP32 芯片版 OpenClaw（1.3K 星）（新增）
+- **rowboatlabs/rowboat** — 知识图谱型 AI 协作，Obsidian 兼容（5.1K 星）（新增）
+- **excalidraw/excalidraw-mcp** — Excalidraw 官方 MCP server（1.9K 星）（新增）
+- **google/langextract** — Google LLM 结构化信息提取（31.4K 星）（新增）
 
 ### Twitter 关注人物
 

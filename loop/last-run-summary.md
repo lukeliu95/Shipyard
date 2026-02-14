@@ -1,75 +1,87 @@
-# Alan 今日简报 — 2026-02-14
+# Alan 简报 — 2026-02-14-1200
 
-> 运行模式: 多 Agent 架构
-> GitHub Scout: success（10 个项目）
-> Twitter Radar: success（14 条动态）
-> Signal Analyzer: success（6 个信号，3 个强信号）
+> 运行模式: 多 Agent 架构（每小时）
+> GitHub Scout: ✅ success（12 个项目）
+> Twitter Radar: ✅ success（15 条动态）
+> Signal Analyzer: ✅ success（6 个信号，3 强）
 
 ## 一句话总结
-**Agent 编排赛道爆发 + 中国四大模型同周发布 = "agentic engineering" 从概念变成基础设施，中文内容窗口期在收窄。**
+**GitHub 官方 spec-kit 69K 星横空出世 — "PM 的 Cursor"方向进化为更具体的"PM 版 spec-kit"，三个赚钱信号正在汇聚成一个产品。**
 
-## GitHub 发现（10 个值得关注）
-- **ChromeDevTools/chrome-devtools-mcp** — Chrome 官方 MCP server，24.6K 星，Agent 控制浏览器的标配工具 | 相关度：高
-- **BloopAI/vibe-kanban** — 多 Agent 编排看板，21.2K 星，直击多 Agent 协作痛点 | 相关度：高
-- **danielmiessler/Personal_AI_Infrastructure** — 个人 AI 基础设施，7.9K（今日 +588），增长凶猛 | 相关度：高
-- **obra/superpowers** — AI agent 技能框架，~27K 星，与 agentic engineering 写作直接相关 | 相关度：高
-- **SynkraAI/aios-core** — "Agentic Agile" 多 Agent 协作系统，339 星，早期但概念有趣 | 相关度：中
-- **cheahjs/free-llm-api-resources** — 免费 LLM API 汇总，10.4K（今日 +442） | 相关度：中
-- **THUDM/slime** — 清华智谱 RL 训练框架，4K 星，中国 AI 基础设施在补课 | 相关度：中
-- **SHAdd0WTAka/Zen-Ai-Pentest** — AI 渗透测试框架，新项目，安全赛道持续分化 | 相关度：中
-- **patchy631/ai-engineering-hub** — AI 工程教程合集，29K（今日 +386），可参考内容组织方式 | 相关度：低
-- **google-deepmind/superhuman** — DeepMind 超人推理项目，学术价值高 | 相关度：低
+## GitHub 发现（12 个值得关注）
+- **spec-kit**（GitHub 官方）69.4K ⭐ — Spec-Driven Development 标准化，vibe coding 的下一阶段 | 相关度：高
+- **mimiclaw** 1.3K — $5 ESP32-S3 芯片跑 OpenClaw，边缘 AI 继续扩张 | 相关度：高
+- **nanoclaw** 7.8K — 安全版 OpenClaw，500 行核心 + 容器隔离，一周 0→7K | 相关度：高
+- **rowboat** 5.1K — 知识图谱型 AI 协作，Obsidian 兼容，"记忆是积累不是检索" | 相关度：高
+- **langextract**（Google）31.4K — LLM 结构化信息提取 + 精确溯源 | 相关度：中
+- **excalidraw-mcp** 1.9K — Excalidraw 官方 MCP，Agent 能画图了 | 相关度：中
+- **PAI** 8.1K — 个人 AI 基础设施持续增长（+595 今日）| 相关度：高
+- **superhuman**（DeepMind）389 — IMO 金牌级数学推理基准开源 | 相关度：低
+- **aios-core** 449 — AI 编排 OS，日增 30%，连续多轮上榜 | 相关度：中
+- **chrome-devtools-mcp** 24.7K — MCP 生态旗舰持续增长 | 相关度：中
+- **superpowers** 50.6K — Agentic Skills 标杆仍在趋势榜 | 相关度：中
+- **free-llm-api-resources** 10.7K — 免费 LLM API 列表，开发者需求旺盛 | 相关度：低
 
-## Twitter 动态（14 条值得关注）
+## Twitter 动态（15 条值得关注）
 
 ### 美国
-- **Anthropic** — Sonnet 5 已发布（SWE-Bench 82.1%，$3/M），Opus 4.6 持续升级 → 高低端双线压制
-- **OpenAI** — 指控 DeepSeek 蒸馏 + GPT-5.3-Codex 发布 + Frontier 编排平台 → 从模型商转向企业 AI 平台
-- **Karpathy** — MicroGPT 发布 + "slopacolypse" 预言 → AI 内容质量崩塌可能成新赛道
-- **Greg Isenberg** — SaaS 裁员 10 万+，50% SaaS 公司将死 → 被裁员工变创业者 = 工具需求爆发
-- **SpaceX 收购 xAI** — 万亿美元合并，AI+太空+卫星三合一 → 基础设施之争
-- **Goldman Sachs × Anthropic** — AI agent 进入华尔街会计和客户审核 → 金融 AI agent 是生产环境不是实验
+- **Anthropic 军事争议** — Claude 被用于委内瑞拉军事行动（via Palantir），安全团队负责人辞职，$2 亿合同暂停。AI 安全 vs 军事矛盾首次公开爆发
+- **Anthropic $300 亿 Series G** — 估值 $3800 亿，年化收入 $140 亿。资本与伦理极限拉锯
+- **Claude Sonnet 5** — SWE-Bench 82.1% 创纪录，$3/1M token，子 agent 并行
+- **Karpathy microGPT** — 243 行纯 Python 完整 GPT。预言 "slopacolypse"
+- **Greg Isenberg** — SaaS 裁员超 10 万，50% SaaS 死亡，1 人 AI 公司崛起
+- **OpenAI Frontier** — 企业 AI Agent 管理平台，HP/Uber 等已使用
+- **Stripe x402 vs Google AP2** — Agent 支付标准战开打，CoinGecko 已激活 x402
+- **美国法律先例** — AI 辅助文件不受律师-客户特权保护
 
 ### 中国
-- **字节豆包 2.0** — 今日发布，文+图+视频全模态升级，日均 50 万亿 token → 中国第一全球第三
-- **智谱 GLM-5** — 开源 744B 参数，编程 SOTA，股价暴涨 28.68% → 中国开源模型首次逼近 Claude Opus
-- **DeepSeek V4** — 即将发布，传闻编码超越 Claude → 如果属实是中国 AI 专业领域重大突破
-- **阿里 Qwen3.5** — 曝光全新混合注意力机制 + 万亿参数推理模型 → 多模态持续推进
+- **字节豆包 2.0** — 今日发布，Agent 架构重构为"能执行任务"
+- **智谱 GLM-5** — 开源 SOTA 编程模型，SWE-bench 77.8%，股价涨 50%+
+- **DeepSeek V4** — 2/17 发布（3 天后），消费级硬件可运行，Engram 记忆技术
 
 ### 日本
-- **软银 Pepper+** — 搭载 AI agent 进入零售，识别顾客表情推荐商品 → 实体 AI agent 领跑
-- **日本政府** — 1 万亿日元（~65 亿美元）物理 AI 计划 → 差异化国家战略
-- **Fanuc × NVIDIA** — 物理 AI 工业机器人 + 开源 ROS 2 驱动 → 工业自动化范式转变
+- **富士通主权 AI 服务器** — 日本制造 NVIDIA Blackwell，3 月量产
+- **软银 Crystal Intelligence** — 基于 OpenAI Frontier，内部已创建 250 万个 agent
+- **日本 AI 战略总部** — 首相级领导，7 万亿日元预算
 
 ### 跨国共振
-- AI Agent 替代 SaaS — 三国同步推进，2026 最大确定性趋势
-- 编码能力军备竞赛白热化 — 开源 vs 闭源将在编码领域率先分胜负
-- 物理 AI — 日本领跑，差异化路线值得关注
-- 模型发布大混战 — 豆包/GLM-5/DeepSeek V4/Qwen3.5 同周发布
+- 🔥🔥🔥 Agent 支付基础设施全球同步落地（x402 + AP2 + Agentic Wallets）
+- 🔥🔥🔥 编码 AI 三国军备赛（Sonnet 5 82.1% vs GLM-5 77.8% vs DeepSeek V4 即将）
+- 🔥🔥 AI + 军事伦理红线被触碰，所有 AI 公司必须表态
+- 🔥🔥 SaaS 大屠杀加速，1 人 AI 公司崛起
 
 ## 赚钱信号（6 个机会）
-1. **多 Agent 编排工具（中文版）** — 信号强度：强 | 建议：试用 vibe-kanban，调研中文市场需求
-2. **AI Agent 安全审计** — 信号强度：强（持续验证） | 建议：从"Agent 行为监控面板"角度切入
-3. **Agentic Engineering 中文教育内容** — 信号强度：强（窗口期收窄） | 建议：加速完成指南，用 Bill_v1 做活案例
-4. **独立开发者 AI 工具包** — 信号强度：中 | 建议：先观察 2-3 周，关注 PAI 发展
-5. **AI 内容质量过滤** — 信号强度：弱（早期信号） | 建议：暂不行动，持续关注
-6. **物理 AI / 机器人控制接口** — 信号强度：弱（长线信号） | 建议：纯关注，每月复查
+
+| # | 机会 | 信号强度 | 建议动作 |
+|---|------|---------|---------|
+| 1 | **Spec-Driven PM 工具** | 强 ↑↑ | spec-kit 让方向具体化。做"PM 版 spec-kit"，MVP 3-4 周 |
+| 2 | **Agent 记忆跨平台同步** | 强 ↑↑（6次） | 作为 PM 工具基础设施。等 DeepSeek V4 Engram（2/17）|
+| 3 | **Vibe Coding 仪表盘** | 强（稳定） | 整合进 PM 工具作为功能模块 |
+| 4 | **Agent 支付标准战** | 中 ↑ | 观望。等标准分出胜负 |
+| 5 | **1 人公司基础设施** | 中（新） | 作为 PM 工具的市场定位参考 |
+| 6 | **AI 伦理/军事争议** | 弱（环境） | 不行动，观察 Anthropic 稳定性 |
 
 ## 最强行动建议
-**加速完成 "Agentic Engineering 中文指南"，这是当前窗口期最紧迫、能力匹配度最高（95%）的机会。** 用 Bill_v1 作为活案例增加可信度，参考 ai-engineering-hub（29K 星）的内容组织方式。同时安排时间试用 vibe-kanban，为下一个产品方向做调研。
+**启动"PM 版 spec-kit"MVP。** spec-kit 69K 星证明 spec-driven 是真需求，但它面向开发者。PM 需要的不是驱动代码的 spec，是驱动产品决策的 spec。三个信号正在汇聚成一个产品：**为 1 人 AI 公司创始人打造的 Spec-Driven 产品决策工具**，内置 Agent 记忆（跨平台同步）和 Agent 仪表盘（状态+成本+通知）。
+
+第一步：梳理 Luke 日常 PM 工作流，找最痛的 3 个环节。
+第二步：用 slash command 模式做 MVP（/user-research, /competitor, /prioritize, /roadmap）。
 
 ## 下次关注
-- DeepSeek V4 发布动态（传闻 2 月中旬，可能随时发布）
-- vibe-kanban 中文社区讨论热度
-- Karpathy 对 "slopacolypse" 的后续观点
-- 春节后中国 AI 应用用户留存数据（豆包日活、千问转化）
-- Qwen3.5 正式发布时间和能力评测
-- Anthropic 多 Agent API 开放动向
+- **DeepSeek V4 发布**（2/17，3 天后）— Engram 记忆技术细节决定记忆产品技术方案
+- **spec-kit 社区反馈** — 关注开发者 vs PM 的使用差异
+- **OpenClaw 生态分化** — 官方版/安全版/芯片版的增长对比
+- **Anthropic 军事争议后续** — 安全政策是否调整，对 API 稳定性的影响
+- **豆包 2.0 用户反馈** — Agent 架构重构后的实际表现
+
+## 数据源进化报告
+- GitHub Scout: 使用 8 个源，新发现 1 个（CNX Software 贡献了 MimiClaw 硬件信息）
+- Twitter Radar: 使用 11 个源，新发现 4 个（Fujitsu Global、The Block、Crypto News、Bloomberg 首次贡献有效信息）
 
 ## Agent 运行状态
 | Agent | 状态 | 发现数 | 耗时 |
 |-------|------|--------|------|
-| github-scout | success | 10 | - |
-| twitter-radar | success | 14 | - |
-| signal-analyzer | success | 6（3 强） | - |
-| briefing-generator | success | - | - |
+| github-scout | ✅ success | 12 | - |
+| twitter-radar | ✅ success | 15 | - |
+| signal-analyzer | ✅ success | 6（3 强） | - |
+| briefing-generator | ✅ success | - | - |
