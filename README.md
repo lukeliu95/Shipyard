@@ -58,10 +58,31 @@ graph LR
 - **`context/`**: 静态背景知识（产品介绍、用户画像、平台规则）
 - **`.claude/`**: Agent 技能定义
 
-## 开始使用 (Usage)
+## 快速开始 (Quick Start)
+
+推荐使用 **OpenCode** (开源) 或 **Claude Code** 作为 Agent 来驱动 Shipyard。
+
+1. **克隆项目**:
+   ```bash
+   git clone https://github.com/lukeliu95/Shipyard.git
+   cd Shipyard
+   ```
+
+2. **启动 Agent**:
+   在项目根目录下运行：
+   ```bash
+   opencode
+   # 或者
+   claude
+   ```
+
+3. **开始对话**:
+   告诉 Agent："检查 input 中的新素材并生成内容" 或 "总结本周进度"。
+
+## 使用流程 (Usage)
 
 1. **添加素材**: 在 `input/` 中创建一个新的 Markdown 文件，写下你的想法或日志。
-2. **触发生成**: 告诉 Shipyard "处理 input 中的新素材" 或 "基于这个想法写一篇 Substack"。
+2. **触发生成**: 在 Agent 对话框中指令它 "处理 input 中的新素材" 或 "基于这个想法写一篇 Substack"。
 3. **审核发布**: 检查 `output/` 中生成的文件，确认无误后发布。
 
 ## 维护 (Maintenance)
