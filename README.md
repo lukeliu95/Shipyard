@@ -70,4 +70,4 @@ graph LR
 - 每月初：提炼新的写作模式 (Patterns) 并规划 Methodology 内容。
 
 ---
-*Powered by Claude & Trae*
+Luke https://x.com/LukeLiu95

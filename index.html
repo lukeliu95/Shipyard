@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HH4Y1BMWJF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HH4Y1BMWJF');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipyard — AI Content Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-deep:#0a0c10;
+  --bg-panel:#11141a;
+  --bg-card:#161a23;
+  --bg-elevated:#1c2130;
+  --amber:#e8a635;
+  --amber-dim:#b8832a;
+  --amber-glow:rgba(232,166,53,.12);
+  --red-signal:#e84545;
+  --green-ok:#45e88a;
+  --blue-link:#5b9bf5;
+  --text-primary:#e4e4e7;
+  --text-secondary:#8b8d97;
+  --text-dim:#555764;
+  --border:#222638;
+  --border-light:#2c3048;
+  --font-display:'Instrument Serif',serif;
+  --font-body:'Noto Sans SC','Helvetica Neue',sans-serif;
+  --font-serif-cn:'Noto Serif SC',serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg-deep);
+  color:var(--text-primary);
+  font-family:var(--font-body);
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ═══ GRAIN OVERLAY ═══ */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.03;
+}
+
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-deep)}
+::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--amber-dim)}
+
+/* ═══ SELECTION ═══ */
+::selection{background:var(--amber);color:var(--bg-deep)}
+
+/* ═══ NAV ═══ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,12,16,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
+}
+.nav.scrolled{padding:.6rem 2rem;border-bottom-color:var(--amber-dim)}
+.nav-logo{
+  font-family:var(--font-display);font-size:1.5rem;color:var(--amber);
+  text-decoration:none;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:.6rem;
+}
+.nav-logo .crane{font-size:1.1rem;opacity:.6;font-family:var(--font-mono)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  color:var(--text-secondary);text-decoration:none;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;font-weight:400;
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;
+  background:var(--amber);transform:scaleX(0);transition:transform .3s;
+}
+.nav-links a:hover{color:var(--text-primary)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:8rem 4rem 6rem;position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black,transparent);
+  opacity:.3;
+}
+.hero-glow{
+  position:absolute;top:20%;right:10%;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,166,53,.08),transparent 70%);
+  filter:blur(80px);animation:pulse-glow 8s ease-in-out infinite;
+}
+@keyframes pulse-glow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.35rem 1rem;border:1px solid var(--border-light);border-radius:100px;
+  font-family:var(--font-mono);font-size:.72rem;color:var(--amber);
+  margin-bottom:2rem;width:fit-content;
+  background:var(--amber-glow);
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green-ok);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-family:var(--font-display);font-size:clamp(3rem,7vw,6.5rem);
+  line-height:1.05;letter-spacing:-.03em;color:var(--text-primary);
+  max-width:900px;font-weight:400;
+}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.hero-sub{
+  font-size:1.15rem;color:var(--text-secondary);margin-top:1.5rem;
+  max-width:600px;line-height:1.8;
+}
+.hero-sub strong{color:var(--text-primary);font-weight:500}
+.hero-stats{
+  display:flex;gap:3rem;margin-top:3.5rem;padding-top:2rem;
+  border-top:1px solid var(--border);
+}
+.hero-stat{display:flex;flex-direction:column;gap:.2rem}
+.hero-stat .num{
+  font-family:var(--font-mono);font-size:2rem;color:var(--amber);font-weight:500;
+}
+.hero-stat .label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+
+/* ═══ SECTIONS ═══ */
+section{padding:6rem 4rem}
+.section-label{
+  font-family:var(--font-mono);font-size:.7rem;color:var(--amber);
+  text-transform:uppercase;letter-spacing:.15em;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.8rem;
+}
+.section-label::before{content:'';width:24px;height:1px;background:var(--amber)}
+.section-title{
+  font-family:var(--font-serif-cn);font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:700;line-height:1.3;margin-bottom:1.5rem;letter-spacing:-.01em;
+}
+.section-desc{color:var(--text-secondary);max-width:680px;margin-bottom:3rem;font-size:.95rem}
+.container{max-width:1200px;margin:0 auto}
+
+/* ═══ IDENTITY ═══ */
+.identity{
+  background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.identity-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.identity-text .quote{
+  font-family:var(--font-display);font-size:1.8rem;font-style:italic;
+  color:var(--amber);line-height:1.5;margin-bottom:2rem;
+  padding-left:1.5rem;border-left:2px solid var(--amber-dim);
+}
+.identity-text p{color:var(--text-secondary);margin-bottom:1rem}
+.donts{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+.donts li{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:1rem 1.2rem;background:var(--bg-card);border-radius:8px;
+  border:1px solid var(--border);font-size:.88rem;
+  transition:border-color .3s;
+}
+.donts li:hover{border-color:var(--red-signal)}
+.donts .x{color:var(--red-signal);font-family:var(--font-mono);font-weight:500;flex-shrink:0;font-size:.8rem;margin-top:2px}
+
+/* ═══ THREE LINES ═══ */
+.lines-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.line-card{
+  padding:2rem;border:1px solid var(--border);border-radius:12px;
+  background:var(--bg-card);position:relative;overflow:hidden;
+  transition:all .4s;cursor:default;
+}
+.line-card:hover{border-color:var(--amber-dim);transform:translateY(-4px)}
+.line-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.line-card:hover::before{opacity:1}
+.line-num{
+  font-family:var(--font-mono);font-size:.65rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:1.2rem;
+}
+.line-card h3{
+  font-family:var(--font-serif-cn);font-size:1.25rem;font-weight:700;margin-bottom:.8rem;
+}
+.line-card .en-name{
+  font-family:var(--font-display);font-style:italic;color:var(--amber);
+  font-size:1rem;margin-bottom:1rem;
+}
+.line-card p{color:var(--text-secondary);font-size:.88rem;line-height:1.7}
+.line-formula{
+  margin-top:1.2rem;padding:1rem;background:var(--bg-deep);border-radius:6px;
+  font-family:var(--font-mono);font-size:.75rem;color:var(--text-dim);
+  line-height:1.8;white-space:pre-line;
+}
+.line-freq{
+  margin-top:1rem;display:inline-block;
+  padding:.25rem .7rem;border-radius:100px;font-size:.7rem;
+  font-family:var(--font-mono);color:var(--amber);
+  border:1px solid var(--amber-dim);
+}
+
+/* ═══ PLATFORMS ═══ */
+.platforms{background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.platform-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.platform-card{
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  background:var(--bg-card);transition:all .4s;
+}
+.platform-card:hover{border-color:var(--amber-dim);transform:translateY(-3px)}
+.platform-header{
+  padding:1.5rem 1.5rem 1rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.platform-header h3{font-family:var(--font-serif-cn);font-size:1.15rem;font-weight:700}
+.platform-lang{
+  font-family:var(--font-mono);font-size:.65rem;
+  padding:.2rem .6rem;border-radius:4px;
+  background:var(--bg-deep);color:var(--text-dim);
+}
+.platform-body{padding:1.5rem}
+.platform-body .route{
+  font-size:.82rem;color:var(--amber);font-weight:500;margin-bottom:.8rem;
+}
+.platform-body p{font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.7}
+.skill-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.3rem .8rem;border-radius:6px;
+  background:rgba(232,166,53,.08);border:1px solid var(--amber-dim);
+  font-family:var(--font-mono);font-size:.72rem;color:var(--amber);
+}
+.skill-badge.none{color:var(--text-dim);border-color:var(--border);background:var(--bg-deep)}
+.platform-outputs{
+  margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border);
+}
+.platform-outputs .output-item{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.4rem 0;font-size:.78rem;color:var(--text-secondary);
+}
+.output-item .dot-status{
+  width:5px;height:5px;border-radius:50%;background:var(--green-ok);flex-shrink:0;
+}
+
+/* ═══ MEMORY ═══ */
+.memory-arch{display:grid;grid-template-columns:280px 1fr;gap:2rem}
+.memory-files{display:flex;flex-direction:column;gap:.6rem}
+.mem-file{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;
+  background:var(--bg-card);cursor:pointer;transition:all .3s;
+  position:relative;
+}
+.mem-file:hover,.mem-file.active{border-color:var(--amber);background:var(--bg-elevated)}
+.mem-file .icon{font-family:var(--font-mono);font-size:.75rem;color:var(--amber);width:20px;text-align:center}
+.mem-file .name{font-size:.85rem;font-weight:400}
+.mem-file .purpose{font-size:.7rem;color:var(--text-dim);margin-top:2px}
+.memory-detail{
+  border:1px solid var(--border);border-radius:12px;
+  background:var(--bg-card);overflow:hidden;
+}
+.memory-detail-header{
+  padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.memory-detail-header h4{font-family:var(--font-mono);font-size:.85rem;color:var(--amber)}
+.memory-detail-header .timing{font-size:.7rem;color:var(--text-dim);font-family:var(--font-mono)}
+.memory-detail-body{padding:1.5rem;font-size:.85rem;color:var(--text-secondary);line-height:1.8}
+.memory-detail-body code{
+  font-family:var(--font-mono);font-size:.78rem;
+  background:var(--bg-deep);padding:.15rem .5rem;border-radius:4px;
+  color:var(--amber);
+}
+
+/* ═══ LOOP ═══ */
+.loop-flow{display:flex;flex-direction:column;gap:0;position:relative}
+.loop-connector{
+  width:2px;height:2rem;background:var(--border);margin-left:2.5rem;
+  position:relative;
+}
+.loop-connector::after{
+  content:'';position:absolute;bottom:0;left:-3px;
+  width:8px;height:8px;border-right:2px solid var(--amber);border-bottom:2px solid var(--amber);
+  transform:rotate(45deg);
+}
+.loop-step{
+  display:grid;grid-template-columns:5rem 1fr;gap:1.5rem;
+  padding:1.5rem;border:1px solid var(--border);border-radius:10px;
+  background:var(--bg-card);transition:all .3s;
+}
+.loop-step:hover{border-color:var(--amber-dim)}
+.loop-step .step-icon{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.3rem;
+}
+.loop-step .step-num{
+  font-family:var(--font-mono);font-size:1.8rem;color:var(--amber);font-weight:500;line-height:1;
+}
+.loop-step .step-label{font-family:var(--font-mono);font-size:.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;text-align:center}
+.loop-step h4{font-family:var(--font-serif-cn);font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+.loop-step p{font-size:.85rem;color:var(--text-secondary);line-height:1.7}
+.loop-step .actions{
+  margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem;
+}
+.loop-step .action-tag{
+  font-family:var(--font-mono);font-size:.68rem;
+  padding:.2rem .6rem;border-radius:4px;
+  background:var(--bg-deep);color:var(--text-dim);border:1px solid var(--border);
+}
+
+.loop-cycles{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.cycle-card{
+  padding:1.5rem;border:1px solid var(--border);border-radius:10px;
+  background:var(--bg-card);
+}
+.cycle-card h4{
+  font-family:var(--font-mono);font-size:.78rem;color:var(--amber);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;
+}
+.cycle-card ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.cycle-card li{
+  font-size:.82rem;color:var(--text-secondary);
+  padding-left:1.2rem;position:relative;
+}
+.cycle-card li::before{
+  content:'';position:absolute;left:0;top:.55em;
+  width:5px;height:5px;border-radius:50%;background:var(--amber-dim);
+}
+
+/* ═══ FILE TREE ═══ */
+.file-tree-section{background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.file-tree{
+  font-family:var(--font-mono);font-size:.8rem;line-height:2;
+  padding:2rem;background:var(--bg-deep);border-radius:12px;
+  border:1px solid var(--border);max-width:700px;
+  color:var(--text-secondary);
+}
+.file-tree .dir{color:var(--blue-link)}
+.file-tree .file{color:var(--text-dim)}
+.file-tree .comment{color:var(--text-dim);opacity:.5}
+.file-tree .highlight{color:var(--amber)}
+
+/* ═══ STATS DASHBOARD ═══ */
+.dashboard{background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.dash-card{
+  padding:1.5rem;border:1px solid var(--border);border-radius:10px;
+  background:var(--bg-card);text-align:center;transition:all .3s;
+}
+.dash-card:hover{border-color:var(--amber-dim)}
+.dash-card .dash-num{
+  font-family:var(--font-mono);font-size:2.5rem;color:var(--amber);
+  font-weight:500;line-height:1;margin-bottom:.5rem;
+}
+.dash-card .dash-label{
+  font-size:.75rem;color:var(--text-dim);text-transform:uppercase;
+  letter-spacing:.08em;font-family:var(--font-mono);
+}
+.recent-articles{margin-top:2rem}
+.article-row{
+  display:grid;grid-template-columns:3rem 1fr 6rem 5rem 5rem;gap:1rem;
+  align-items:center;
+  padding:.8rem 1.2rem;border-bottom:1px solid var(--border);
+  font-size:.82rem;transition:background .2s;
+}
+.article-row:hover{background:var(--bg-elevated)}
+.article-row:first-child{
+  font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border-light);
+}
+.article-row .id{font-family:var(--font-mono);color:var(--text-dim);font-size:.75rem}
+.article-row .title-col{color:var(--text-primary);font-weight:400}
+.article-row .platform-tag{
+  font-family:var(--font-mono);font-size:.68rem;
+  padding:.15rem .5rem;border-radius:4px;text-align:center;
+}
+.tag-substack{background:rgba(91,155,245,.1);color:var(--blue-link);border:1px solid rgba(91,155,245,.2)}
+.tag-wechat{background:rgba(69,232,138,.1);color:var(--green-ok);border:1px solid rgba(69,232,138,.2)}
+.tag-note{background:rgba(232,166,53,.1);color:var(--amber);border:1px solid rgba(232,166,53,.2)}
+.article-row .type-col{font-size:.75rem;color:var(--text-dim)}
+.article-row .status-col{display:flex;align-items:center;gap:.4rem;font-size:.75rem}
+.status-dot{width:5px;height:5px;border-radius:50%}
+.status-draft{background:var(--amber)}
+
+/* ═══ QUALITY ═══ */
+.quality-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.check-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.2rem 1.5rem;border:1px solid var(--border);border-radius:8px;
+  background:var(--bg-card);transition:all .3s;
+}
+.check-item:hover{border-color:var(--green-ok)}
+.check-box{
+  width:18px;height:18px;border:1.5px solid var(--green-ok);border-radius:4px;
+  flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;
+  color:var(--green-ok);font-size:.7rem;
+}
+.check-item p{font-size:.88rem;color:var(--text-secondary);line-height:1.6}
+
+/* ═══ FOOTER ═══ */
+.footer{
+  padding:4rem;text-align:center;border-top:1px solid var(--border);
+}
+.footer-logo{
+  font-family:var(--font-display);font-size:2rem;color:var(--amber);
+  margin-bottom:1rem;
+}
+.footer p{font-size:.82rem;color:var(--text-dim);line-height:1.8}
+.footer .tech-stack{
+  display:flex;justify-content:center;gap:1.5rem;margin-top:2rem;
+  flex-wrap:wrap;
+}
+.footer .tech-tag{
+  font-family:var(--font-mono);font-size:.7rem;
+  padding:.3rem .8rem;border-radius:4px;
+  background:var(--bg-card);color:var(--text-dim);border:1px solid var(--border);
+}
+
+/* ═══ ANIMATIONS ═══ */
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  section,.hero{padding:4rem 2rem}
+  .identity-grid{grid-template-columns:1fr;gap:2rem}
+  .lines-grid,.platform-cards{grid-template-columns:1fr}
+  .memory-arch{grid-template-columns:1fr}
+  .loop-cycles{grid-template-columns:1fr}
+  .dash-grid{grid-template-columns:repeat(2,1fr)}
+  .quality-grid{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:2rem}
+  .article-row{grid-template-columns:2rem 1fr 5rem;font-size:.78rem}
+  .article-row .type-col,.article-row .status-col{display:none}
+  .nav-links{display:none}
+}
+@media(max-width:640px){
+  section,.hero{padding:3rem 1.2rem}
+  .hero h1{font-size:2.2rem}
+  .dash-grid{grid-template-columns:1fr 1fr}
+  .loop-step{grid-template-columns:3.5rem 1fr;gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">
+    <span class="crane">&#9875;</span> Shipyard
+  </a>
+  <ul class="nav-links">
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#lines">Content Lines</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+    <li><a href="#memory">Memory</a></li>
+    <li><a href="#loop">Loop</a></li>
+    <li><a href="#structure">Structure</a></li>
+    <li><a href="#dashboard">Dashboard</a></li>
+    <li><a href="https://github.com/lukeliu95/Shipyard" target="_blank" style="color:var(--amber)">GitHub &nearr;</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="dot"></span>
+    W08 RUNNING &mdash; 6 ARTICLES PRODUCED
+  </div>
+  <h1 class="reveal">
+    <em>Shipyard</em><br>
+    AI 造物日志<br>
+    内容生产系统
+  </h1>
+  <p class="hero-sub reveal reveal-delay-1">
+    一个产品设计师的 AI 内容工厂。<strong>不是翻译器，不是分析师</strong>——<br>
+    把简报数据、Build Log、产品思考碎片，变成三个平台上的 Builder 叙事。
+  </p>
+  <div class="hero-stats reveal reveal-delay-2">
+    <div class="hero-stat">
+      <span class="num" data-count="3">0</span>
+      <span class="label">Platforms</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num" data-count="2">0</span>
+      <span class="label">Skills</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num" data-count="5">0</span>
+      <span class="label">Memory Files</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num" data-count="6">0</span>
+      <span class="label">Articles W08</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IDENTITY ═══ -->
+<section class="identity" id="identity">
+  <div class="container">
+    <span class="section-label reveal">01 &mdash; Core Identity</span>
+    <h2 class="section-title reveal">Builder, not Analyst</h2>
+    <div class="identity-grid">
+      <div class="identity-text reveal">
+        <div class="quote">
+          &ldquo;Alan 的价值不在于知道很多，<br>
+          而在于他在用 AI 造东西。<br>
+          他的内容的说服力来自 shipping，不来自分析。&rdquo;
+        </div>
+        <p>市场上工程师讲 AI 技术，分析师讲 AI 趋势。唯独缺少一种声音——<strong style="color:var(--amber)">产品设计师讲怎么用 AI 把东西做出来</strong>。</p>
+        <p>Shipyard 是 Alan 的内容工厂。输入是素材，输出是三个平台持续输出的 Builder 叙事。每一篇内容的潜台词都是：「你也可以这样做。」</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <ul class="donts">
+          <li><span class="x">&#10005;</span> 不做市场分析师 — 不写「XX 赛道 2026 年展望」</li>
+          <li><span class="x">&#10005;</span> 不做技术教程 — 不写「手把手教你用 Claude API」</li>
+          <li><span class="x">&#10005;</span> 不做新闻搬运 — 除非直接影响了产品决策</li>
+          <li><span class="x">&#10005;</span> 不用分析师语气 — 说「我觉得」「我打算」</li>
+          <li><span class="x">&#10005;</span> 不追热点写命题作文 — 只在跟在做的事有交集时才写</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREE LINES ═══ -->
+<section id="lines">
+  <div class="container">
+    <span class="section-label reveal">02 &mdash; Content Lines</span>
+    <h2 class="section-title reveal">内容三条线</h2>
+    <p class="section-desc reveal">所有内容围绕三条线展开。信号是佐料不是主菜——数据支撑决策叙事，不做数据搬运。</p>
+    <div class="lines-grid">
+      <div class="line-card reveal">
+        <div class="line-num">Line 01</div>
+        <h3>本周我看到了什么</h3>
+        <div class="en-name">Signal &rarr; Product Lens</div>
+        <p>从情报数据中挑信号，用「造东西的人」的视角重新解读。不是分析师报告，是 builder 的产品嗅觉。</p>
+        <div class="line-formula">信号事实（1-2 句）
+&rarr; 跟我在做的东西有什么关系？
+&rarr; 我打算怎么做 / 为什么不做</div>
+        <span class="line-freq">每周 1-2 篇</span>
+      </div>
+      <div class="line-card reveal reveal-delay-1">
+        <div class="line-num">Line 02</div>
+        <h3>本周我做了什么</h3>
+        <div class="en-name">Build Log</div>
+        <p>产品迭代的决策记录，不是技术教程。写的是选择和放弃，不是代码和配置。</p>
+        <div class="line-formula">我在做什么（1 句话）
+&rarr; 遇到了什么选择
+&rarr; 选了什么，放弃了什么，为什么
+&rarr; 结果 / 下一步</div>
+        <span class="line-freq">每周 1-2 篇</span>
+      </div>
+      <div class="line-card reveal reveal-delay-2">
+        <div class="line-num">Line 03</div>
+        <h3>非工程师的 AI 产品方法论</h3>
+        <div class="en-name">Methodology</div>
+        <p>把实战经验抽象成可复用的方法。慢出精品，不追速度追深度。</p>
+        <div class="line-formula">实战中的具体经验
+&rarr; 抽象为可复用的方法
+&rarr; 让非工程师也能用</div>
+        <span class="line-freq">每月 1-2 篇</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PLATFORMS ═══ -->
+<section class="platforms" id="platforms">
+  <div class="container">
+    <span class="section-label reveal">03 &mdash; Platform Output</span>
+    <h2 class="section-title reveal">三平台 &times; Skill 驱动</h2>
+    <p class="section-desc reveal">同一素材，三个平台产出不同内容。不是翻译，是本地化重写。每个平台绑定专用 Skill，确保原生质量。</p>
+    <div class="platform-cards">
+
+      <div class="platform-card reveal">
+        <div class="platform-header">
+          <h3>Substack</h3>
+          <span class="platform-lang">EN</span>
+        </div>
+        <div class="platform-body">
+          <div class="route">Build in Public &mdash; 英文长文</div>
+          <p>面向全球英文读者的 essay。参考 Ben Thompson / Paul Graham 风格。Prose-first，800-2500 words，禁用 AI 味表达。</p>
+          <div class="skill-badge">&#9881; cn-to-substack-essay</div>
+          <div class="platform-outputs">
+            <div class="output-item"><span class="dot-status"></span> The AI Panic Is Really a Pricing Power Test</div>
+            <div class="output-item"><span class="dot-status"></span> I Shipped a Product Decision Tool...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-card reveal reveal-delay-1">
+        <div class="platform-header">
+          <h3>微信公众号</h3>
+          <span class="platform-lang">ZH</span>
+        </div>
+        <div class="platform-body">
+          <div class="route">方法论沉淀 + 行业洞察</div>
+          <p>专业但讲人话，有温度。1500-3000 字长文，方法论系列文。「AI 造物周记」和「非工程师 AI 产品手册」两大系列。</p>
+          <div class="skill-badge none">暂无专用 Skill &mdash; 按规范直接生成</div>
+          <div class="platform-outputs">
+            <div class="output-item"><span class="dot-status"></span> AI 造物周记 W08：恐慌里藏着产品人的机会</div>
+            <div class="output-item"><span class="dot-status"></span> PM-Quill 上线了：写代码之前的工具</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-card reveal reveal-delay-2">
+        <div class="platform-header">
+          <h3>note.com</h3>
+          <span class="platform-lang">JA</span>
+        </div>
+        <div class="platform-body">
+          <div class="route">日本 B2B &times; AI &#x30D7;&#x30ED;&#x30C0;&#x30AF;&#x30C8;&#x958B;&#x767A;</div>
+          <p>丁寧だが硬すぎない。1000-2000 字。6大ネイティブチェックルール（コロン禁止、カタカナ選択、体言止め制限 etc.）で翻訳調を排除。</p>
+          <div class="skill-badge">&#9881; cn-to-jp-note-writer</div>
+          <div class="platform-outputs">
+            <div class="output-item"><span class="dot-status"></span> AI恐慌相場から見える「価格決定力」の話</div>
+            <div class="output-item"><span class="dot-status"></span> QiitaのClaudeCodeランキングから見えた...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEMORY ═══ -->
+<section id="memory">
+  <div class="container">
+    <span class="section-label reveal">04 &mdash; Memory System</span>
+    <h2 class="section-title reveal">持久记忆架构</h2>
+    <p class="section-desc reveal">借鉴 claude-mem 的结构化记忆模式。纯 Markdown 文件实现持久记忆——每次生成后必须更新，每次会话开始必须读取。</p>
+
+    <div class="memory-arch reveal">
+      <div class="memory-files">
+        <div class="mem-file active" data-target="mem-index">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">index.md</div><div class="purpose">总索引 + 统计摘要</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-content">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">content-log.md</div><div class="purpose">内容生产记录</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-decisions">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">decisions.md</div><div class="purpose">决策 why 记录</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-patterns">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">patterns.md</div><div class="purpose">模式积累</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-weekly">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">weekly-state.md</div><div class="purpose">本周运营状态</div></div>
+        </div>
+      </div>
+
+      <div class="memory-detail">
+        <div class="memory-detail-header">
+          <h4 id="mem-detail-title">memory/index.md</h4>
+          <span class="timing" id="mem-detail-timing">每次会话启动时读取</span>
+        </div>
+        <div class="memory-detail-body" id="mem-detail-body">
+          <p>记忆系统的入口文件。包含所有记忆文件的索引、统计摘要（总内容数、各平台/内容线分布、本周产出进度）。</p>
+          <p style="margin-top:1rem">Agent 每次启动时首先读取此文件，快速获取全局状态。类似 claude-mem 的 <strong>渐进式上下文注入</strong>——先读摘要，需要时再深入具体文件。</p>
+          <p style="margin-top:1rem">当前状态：<code>总内容 6</code> <code>Substack 2</code> <code>公众号 2</code> <code>note 2</code> <code>本周 6/5-7 ✅</code></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOOP ═══ -->
+<section class="loop-section" id="loop" style="background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <span class="section-label reveal">05 &mdash; Loop Protocol</span>
+    <h2 class="section-title reveal">自动化循环引擎</h2>
+    <p class="section-desc reveal">每次会话遵循标准化协议。素材进来 &rarr; 分类 &rarr; 生成 &rarr; 输出 &rarr; 更新记忆。全流程自动化，人只需要投喂素材。</p>
+
+    <div class="loop-flow reveal">
+      <div class="loop-step">
+        <div class="step-icon"><span class="step-num">01</span><span class="step-label">Input</span></div>
+        <div>
+          <h4>素材输入</h4>
+          <p>简报数据、Build Log 素材、产品思考碎片、外部链接、方法论草稿、发布指令——任意组合投喂。</p>
+          <div class="actions">
+            <span class="action-tag">signals/</span>
+            <span class="action-tag">build-logs/</span>
+            <span class="action-tag">thoughts/</span>
+          </div>
+        </div>
+      </div>
+      <div class="loop-connector"></div>
+      <div class="loop-step">
+        <div class="step-icon"><span class="step-num">02</span><span class="step-label">Classify</span></div>
+        <div>
+          <h4>分类判断</h4>
+          <p>判断内容线（Signal / Build Log / Methodology），判断目标平台（Substack / 公众号 / note），参考 patterns.md 匹配最佳写法。</p>
+          <div class="actions">
+            <span class="action-tag">去重检查 7d/30d</span>
+            <span class="action-tag">跨平台联动</span>
+          </div>
+        </div>
+      </div>
+      <div class="loop-connector"></div>
+      <div class="loop-step">
+        <div class="step-icon"><span class="step-num">03</span><span class="step-label">Generate</span></div>
+        <div>
+          <h4>调用 Skill 生成</h4>
+          <p>Substack 调用 <code style="font-family:var(--font-mono);background:var(--bg-deep);padding:.1rem .4rem;border-radius:3px;color:var(--amber);font-size:.8rem">cn-to-substack-essay</code>，note 调用 <code style="font-family:var(--font-mono);background:var(--bg-deep);padding:.1rem .4rem;border-radius:3px;color:var(--amber);font-size:.8rem">cn-to-jp-note-writer</code>，公众号按 platform-rules 直接生成。运行质量自检清单。</p>
+        </div>
+      </div>
+      <div class="loop-connector"></div>
+      <div class="loop-step">
+        <div class="step-icon"><span class="step-num">04</span><span class="step-label">Output</span></div>
+        <div>
+          <h4>输出文件</h4>
+          <p>写入 <code style="font-family:var(--font-mono);background:var(--bg-deep);padding:.1rem .4rem;border-radius:3px;color:var(--amber);font-size:.8rem">output/{platform}/{date}-{platform}-{slug}.md</code>，包含 YAML frontmatter（platform / language / content_line / date / status）。</p>
+        </div>
+      </div>
+      <div class="loop-connector"></div>
+      <div class="loop-step">
+        <div class="step-icon"><span class="step-num">05</span><span class="step-label">Memory</span></div>
+        <div>
+          <h4>更新记忆</h4>
+          <p>追加 content-log &rarr; 记录 decisions &rarr; 更新 weekly-state &rarr; 同步 index 统计 &rarr; 如有新模式则更新 patterns。</p>
+          <div class="actions">
+            <span class="action-tag">content-log.md</span>
+            <span class="action-tag">decisions.md</span>
+            <span class="action-tag">weekly-state.md</span>
+            <span class="action-tag">index.md</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loop-cycles reveal">
+      <div class="cycle-card">
+        <h4>&#8634; 周循环 &mdash; 每周一</h4>
+        <ul>
+          <li>归档上周 weekly-state</li>
+          <li>初始化新一周状态</li>
+          <li>总结上周产出情况</li>
+          <li>识别遗留事项写入新周</li>
+          <li>扫描 input/ 积压素材</li>
+        </ul>
+      </div>
+      <div class="cycle-card">
+        <h4>&#8634; 月循环 &mdash; 每月初</h4>
+        <ul>
+          <li>回顾本月全部 content-log</li>
+          <li>提炼新模式到 patterns.md</li>
+          <li>检查是否该产出 Methodology 长文</li>
+          <li>规划下月内容重点方向</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FILE STRUCTURE ═══ -->
+<section class="file-tree-section" id="structure">
+  <div class="container">
+    <span class="section-label reveal">06 &mdash; Architecture</span>
+    <h2 class="section-title reveal">文件结构</h2>
+    <p class="section-desc reveal">文件即数据库。所有产出都是 Markdown 文件，可读、可搜、可版本控制。</p>
+    <div class="file-tree reveal">
+<span class="highlight">Shipyard/</span>
+├── <span class="highlight">CLAUDE.md</span>              <span class="comment"># 灵魂 — Agent 的 system prompt</span>
+├── <span class="dir">context/</span>               <span class="comment"># 产品和用户上下文</span>
+│   ├── <span class="file">product.md</span>         <span class="comment"># Shipyard 产品定义</span>
+│   ├── <span class="file">user.md</span>            <span class="comment"># Alan 的画像和素材来源</span>
+│   └── <span class="file">platform-rules.md</span>  <span class="comment"># 三平台内容规范 + 写法公式</span>
+├── <span class="dir">memory/</span>                <span class="comment"># 持久记忆系统</span>
+│   ├── <span class="file">index.md</span>           <span class="comment"># 记忆总索引 + 统计</span>
+│   ├── <span class="file">content-log.md</span>     <span class="comment"># 内容生产记录（核心记忆）</span>
+│   ├── <span class="file">decisions.md</span>       <span class="comment"># 决策 why 记录</span>
+│   ├── <span class="file">patterns.md</span>        <span class="comment"># 可复用模式积累</span>
+│   └── <span class="file">weekly-state.md</span>    <span class="comment"># 本周运营状态</span>
+├── <span class="dir">loop/</span>                  <span class="comment"># 自动化循环系统</span>
+│   ├── <span class="file">loop-protocol.md</span>   <span class="comment"># 循环协议</span>
+│   └── <span class="file">content-log-template.md</span>
+├── <span class="dir">.claude/skills/</span>        <span class="comment"># 平台专用 Skill</span>
+│   ├── <span class="highlight">cn-to-substack-essay.skill</span>
+│   └── <span class="highlight">cn-to-jp-note-writer.skill</span>
+├── <span class="dir">output/</span>                <span class="comment"># 生成的内容文件</span>
+│   ├── <span class="dir">substack/</span>          <span class="comment"># 英文 Substack 长文</span>
+│   ├── <span class="dir">wechat/</span>            <span class="comment"># 公众号文章</span>
+│   └── <span class="dir">note/</span>              <span class="comment"># note 日文文章</span>
+├── <span class="dir">input/</span>                 <span class="comment"># 素材投喂入口</span>
+│   ├── <span class="dir">signals/</span>           <span class="comment"># 简报数据</span>
+│   ├── <span class="dir">build-logs/</span>        <span class="comment"># Build Log 素材</span>
+│   └── <span class="dir">thoughts/</span>          <span class="comment"># 产品思考碎片</span>
+└── <span class="dir">docs/</span>                  <span class="comment"># 设计文档</span>
+</div>
+  </div>
+</section>
+
+<!-- ═══ DASHBOARD ═══ -->
+<section class="dashboard" id="dashboard">
+  <div class="container">
+    <span class="section-label reveal">07 &mdash; Dashboard</span>
+    <h2 class="section-title reveal">W08 产出仪表盘</h2>
+
+    <div class="dash-grid reveal">
+      <div class="dash-card"><div class="dash-num" data-count="6">0</div><div class="dash-label">Total Articles</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">Substack</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">WeChat</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">note.com</div></div>
+    </div>
+
+    <div class="recent-articles reveal">
+      <div class="article-row" style="border-top:1px solid var(--border)">
+        <span>#</span><span>Title</span><span>Platform</span><span>Type</span><span>Status</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#001</span>
+        <span class="title-col">The AI Panic Is Really a Pricing Power Test</span>
+        <span class="platform-tag tag-substack">Substack</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#002</span>
+        <span class="title-col">AI 造物周记 W08：恐慌里藏着产品人的机会</span>
+        <span class="platform-tag tag-wechat">WeChat</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#003</span>
+        <span class="title-col">AI恐慌相場から見える「価格決定力」の話</span>
+        <span class="platform-tag tag-note">note</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#004</span>
+        <span class="title-col">I Shipped a Product Decision Tool...</span>
+        <span class="platform-tag tag-substack">Substack</span>
+        <span class="type-col">Build Log</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#005</span>
+        <span class="title-col">PM-Quill 上线了：写代码之前的工具</span>
+        <span class="platform-tag tag-wechat">WeChat</span>
+        <span class="type-col">Build Log</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row" style="border-bottom:1px solid var(--border)">
+        <span class="id">#006</span>
+        <span class="title-col">QiitaのClaudeCodeランキングから見えた...</span>
+        <span class="platform-tag tag-note">note</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUALITY ═══ -->
+<section id="quality">
+  <div class="container">
+    <span class="section-label reveal">08 &mdash; Quality Gate</span>
+    <h2 class="section-title reveal">质量自检清单</h2>
+    <p class="section-desc reveal">每篇内容输出前必须通过全部检查。这不是形式主义——它确保每一篇都是 Builder 在说话。</p>
+    <div class="quality-grid reveal">
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>是否从「我做了 / 我决定了」出发，而不是「市场发生了」？</p>
+      </div>
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>读起来像一个 builder 在说话，还是像一个分析师在写报告？</p>
+      </div>
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>有没有具体的产品决策、设计选择、或 shipping 进展？</p>
+      </div>
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>数据和信号是佐料，不是主菜？</p>
+      </div>
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>语气是否匹配目标平台？（Substack native EN / 公众号讲人话 / note ネイティブ）</p>
+      </div>
+      <div class="check-item">
+        <div class="check-box">&#10003;</div>
+        <p>对非工程师读者友好吗？没有无意义的技术术语？</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-logo">&#9875; Shipyard</div>
+  <p>AI 驱动的 SNS 内容生产系统<br>
+  Built by Luke &mdash; Builder, not Analyst</p>
+  <div class="tech-stack">
+    <span class="tech-tag">Claude Code Agent</span>
+    <span class="tech-tag">CLAUDE.md</span>
+    <span class="tech-tag">Markdown Files as DB</span>
+    <span class="tech-tag">Skills System</span>
+    <span class="tech-tag">Memory Protocol</span>
+    <span class="tech-tag">Loop Automation</span>
+  </div>
+  <div style="margin-top:2rem;display:flex;justify-content:center;gap:2rem">
+    <a href="https://github.com/lukeliu95/Shipyard" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-family:var(--font-mono);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-secondary)'">GitHub</a>
+    <a href="https://x.com/LukeLiu95" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-family:var(--font-mono);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-secondary)'">@LukeLiu95</a>
+  </div>
+</footer>
+
+<script>
+// ═══ NAV SCROLL ═══
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ═══ REVEAL ON SCROLL ═══
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => revealObserver.observe(el));
+
+// ═══ COUNTER ANIMATION ═══
+const counters = document.querySelectorAll('[data-count]');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.count);
+    let current = 0;
+    const step = Math.max(1, Math.floor(target / 20));
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current;
+    }, 40);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+counters.forEach(el => counterObserver.observe(el));
+
+// ═══ MEMORY FILE TABS ═══
+const memData = {
+  'mem-index': {
+    title: 'memory/index.md',
+    timing: '每次会话启动时读取',
+    body: '<p>记忆系统的入口文件。包含所有记忆文件的索引、统计摘要（总内容数、各平台/内容线分布、本周产出进度）。</p><p style="margin-top:1rem">Agent 每次启动时首先读取此文件，快速获取全局状态。类似 claude-mem 的<strong>渐进式上下文注入</strong>——先读摘要，需要时再深入具体文件。</p><p style="margin-top:1rem">当前状态：<code>总内容 6</code> <code>Substack 2</code> <code>公众号 2</code> <code>note 2</code> <code>本周 6/5-7 ✅</code></p>'
+  },
+  'mem-content': {
+    title: 'memory/content-log.md',
+    timing: '每次生成前读取（去重） / 生成后追加',
+    body: '<p><strong>核心记忆文件。</strong>结构化记录每次生成的内容：日期、平台、内容线、标题、输入素材、Skill、关联内容、状态、决策备注。</p><p style="margin-top:1rem">去重规则：同一信号源 <code>7 天</code>内不重复，同一方法论 <code>30 天</code>内不重复，同一产品决策不在同一平台重复发布。</p><p style="margin-top:1rem">跨平台联动通过 <code>关联内容</code> 字段追踪：如 #001(Substack) ↔ #002(公众号) ↔ #003(note) 来自同一素材但角度不同。</p>'
+  },
+  'mem-decisions': {
+    title: 'memory/decisions.md',
+    timing: '做出关键决策后追加',
+    body: '<p>记录内容生产中的关键决策：<strong>为什么选这个角度、为什么放弃某个方向、为什么调整语气。</strong></p><p style="margin-top:1rem">每条记录包含：场景（什么情况）、选择（选了什么）、放弃（放弃了什么）、原因（为什么）。</p><p style="margin-top:1rem">示例：第二轮素材放弃 Apple+Gemini 做主线，因为跟 Alan 产品无直接决策连接；SaaSpocalypse 第一轮已覆盖（7天去重）。</p>'
+  },
+  'mem-patterns': {
+    title: 'memory/patterns.md',
+    timing: '月循环时提炼 / 生成内容时参考',
+    body: '<p>从多次内容生产中提炼的<strong>可复用模式</strong>。随实践积累，包括三个维度：</p><p style="margin-top:1rem"><strong>素材→平台匹配模式</strong>：什么类型的素材适合什么平台</p><p style="margin-top:.5rem"><strong>高效写法模式</strong>：什么角度效果好</p><p style="margin-top:.5rem"><strong>踩坑记录</strong>：什么写法要避免</p><p style="margin-top:1rem">目前为空，等积累足够多的生产经验后开始提炼。</p>'
+  },
+  'mem-weekly': {
+    title: 'memory/weekly-state.md',
+    timing: '每次会话启动时读取 / 生成后更新',
+    body: '<p>当前周的运营状态追踪。每周一重置。包含：</p><p style="margin-top:1rem"><strong>产出进度表</strong>：各平台目标 vs 已完成</p><p style="margin-top:.5rem"><strong>素材队列</strong>：所有待处理素材的状态（queued → processing → generated → skipped）</p><p style="margin-top:.5rem"><strong>周节奏</strong>：周一简报→周二 Signal→周三 Build Log→周四产出→周五补缺</p><p style="margin-top:1rem">当前 W08：<code>Substack 2/1-2 ✅</code> <code>公众号 2/1 ✅</code> <code>note 2/0-1 ✅</code></p>'
+  }
+};
+
+document.querySelectorAll('.mem-file').forEach(file => {
+  file.addEventListener('click', () => {
+    document.querySelectorAll('.mem-file').forEach(f => f.classList.remove('active'));
+    file.classList.add('active');
+    const data = memData[file.dataset.target];
+    document.getElementById('mem-detail-title').textContent = data.title;
+    document.getElementById('mem-detail-timing').textContent = data.timing;
+    document.getElementById('mem-detail-body').innerHTML = data.body;
+  });
+});
+</script>
+</body>
+</html>
