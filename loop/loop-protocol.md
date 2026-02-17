@@ -21,14 +21,17 @@
                ▼
 ┌─ CLASSIFY ───────────────────────────────┐
 │ 1. 判断内容线: signal / build_log / methodology │
-│ 2. 判断目标平台: twitter / wechat / note        │
+│ 2. 判断目标平台: substack / wechat / note        │
 │ 3. 参考 memory/patterns.md 匹配最佳写法         │
 └──────────────┬───────────────────────────┘
                ▼
 ┌─ GENERATE ───────────────────────────────┐
 │ 1. 读取 context/platform-rules.md 获取平台规范  │
 │ 2. 读取 memory/content-log.md 检查近期内容      │
-│ 3. 按写法公式生成内容                           │
+│ 3. 调用对应 Skill 生成内容：                     │
+│    - Substack → cn-to-substack-essay            │
+│    - note → cn-to-jp-note-writer                │
+│    - 公众号 → 按 platform-rules 直接生成         │
 │ 4. 运行质量自检清单                             │
 └──────────────┬───────────────────────────┘
                ▼

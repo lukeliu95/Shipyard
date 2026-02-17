@@ -29,9 +29,9 @@ Alan 的内容工厂。输入是素材（简报、Build Log、思考碎片），
 ### 2. 内容线 → 平台适配
 
 同一素材根据目标平台生成不同内容：
-- **Twitter/X**：英文，Build in Public 风格，单条或 Thread
+- **Substack**：英文，Build in Public 长文，800-2500 words（调用 `cn-to-substack-essay` Skill）
 - **微信公众号**：中文，方法论沉淀 + 行业洞察，1500-3000 字
-- **note**：日文，日本 B2B × AI 实践记录，1000-2000 字
+- **note**：日文，日本 B2B × AI 实践记录，1000-2000 字（调用 `cn-to-jp-note-writer` Skill）
 
 ### 3. 质量自检 → 输出
 

@@ -28,10 +28,20 @@ Alan 每周都在 shipping AI 产品。但他没时间把这些经历变成内�
 
 ```
 素材输入  →  判断内容线（Signal / Build Log / Methodology）
-         →  判断目标平台（Twitter / 公众号 / note）
-         →  按平台规范生成 md 文件
+         →  判断目标平台（Substack / 公众号 / note）
+         →  调用对应 Skill 生成内容
          →  自检质量 → 输出
 ```
+
+## Skill 调用规则
+
+内容生成时**必须**调用对应平台的 Skill，不要裸写：
+
+| 平台 | Skill | 用途 |
+|------|-------|------|
+| Substack | `cn-to-substack-essay` | 中文素材 → 英文 Substack 长文（非翻译，原生重写） |
+| note | `cn-to-jp-note-writer` | 中文素材 → 日语 note.com 文章（非翻译，ネイティブ書き直し） |
+| 公众号 | —（暂无专用 Skill） | 直接按 platform-rules.md 规范生成 |
 
 ## 内容三条线
 
@@ -114,7 +124,7 @@ Shipyard/
 ├── docs/                  # 设计文档
 │   └── ai-builders-journal.md  # 原始系统设计文档
 ├── output/                # 生成的内容文件
-│   ├── twitter/           # 英文推文
+│   ├── substack/          # 英文 Substack 长文
 │   ├── wechat/            # 公众号文章
 │   └── note/              # note 日文文章
 ├── input/                 # 投喂的素材
@@ -130,7 +140,7 @@ Shipyard/
 **每个 md 文件包含：**
 ```yaml
 ---
-platform: twitter | wechat | note
+platform: substack | wechat | note
 language: en | zh | ja
 content_line: signal | build_log | methodology
 date: YYYY-MM-DD
@@ -151,7 +161,7 @@ status: draft
 
 ## 语言
 
-- Twitter：英文，简洁直接带观点
+- Substack：英文，native speaker 长文风格（参考 Ben Thompson / Paul Graham）
 - 公众号：中文，专业但讲人话
 - note：日文，丁寧だが硬すぎない
 - 技术术语保持英文原文

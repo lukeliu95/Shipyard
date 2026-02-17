@@ -19,12 +19,13 @@
 ## 示例
 
 ```markdown
-### [001] 2026-02-17 — twitter — zvec-skill-memory
+### [001] 2026-02-17 — substack — zvec-skill-memory
 - **内容线：** signal
 - **语言：** en
 - **标题：** zvec changes my Skill platform strategy
 - **输入素材：** 2026-02-17 简报 — zvec GitHub trending
-- **输出文件：** output/twitter/2026-02-17-twitter-zvec-skill-memory.md
+- **输出文件：** output/substack/2026-02-17-substack-zvec-skill-memory.md
+- **Skill：** cn-to-substack-essay
 - **关联内容：** #002
 - **状态：** draft
 - **决策备注：** 日本客户数据出境敏感度高，本地向量方案是强 signal
@@ -37,5 +38,5 @@
 - **输出文件：** output/wechat/2026-02-17-wechat-ai-weekly-w8.md
 - **关联内容：** #001
 - **状态：** draft
-- **决策备注：** 公众号版本从日本企业数据合规角度展开，比 Twitter 版更深
+- **决策备注：** 公众号版本从日本企业数据合规角度展开，比 Substack 版更深
 ```

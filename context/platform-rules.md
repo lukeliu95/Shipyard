@@ -1,29 +1,28 @@
 # 三平台内容规范
 
-## Twitter/X — 英文
+## Substack — 英文
 
-**路线：** Build in Public
-**语气：** 简洁、直接、带观点、偶尔自嘲
+**Skill：** `cn-to-substack-essay`（生成时必须调用）
+
+**路线：** Build in Public 长文，面向全球英文读者
+**语气：** Native English，参考 Ben Thompson / Paul Graham / Lenny Rachitsky 风格
 **格式：**
-- 单条推文（观点 / 发现 / shipping update）
-- Thread（Build Log 精简版，3-7 条）
-- Quote + 评论（对 AI 圈热点的 builder 视角反应）
+- 长文 essay（800-2500 words，prose-first）
+- 5种文章类型：Analysis / Builder's Log / Contrarian Take / Signal Report / How I Think About X
 
 **内容偏好：**
 - 线一（Signal）和线二（Build Log）为主
 - 强调 shipping 和决策过程
-- 适度展示数据/截图
+- 用 earned opinions 展示 builder authority
 
-**发布节奏：** 每周 3-5 条
+**发布节奏：** 每周 1-2 篇
 
-**语气示例：**
-```
-Shipped PM-Quill last week. Four-step workflow: spec → feasibility → plan → review.
-
-Not a coding tool. It's the decision layer BEFORE you start coding.
-
-Built for non-engineers who want to ship AI products without waiting for a dev team.
-```
+**核心规则（详见 Skill）：**
+- 不是翻译，是用英文从头重写
+- Prose first，不默认用 bullet points
+- 禁用 "Let's dive in" / "In this article" / "Without further ado" 等非母语标记
+- 句式长短交替，避免均匀中等长度
+- 用 callback / conversational pivot 做过渡，不用 "Furthermore" / "Additionally"
 
 ---
 
@@ -49,6 +48,8 @@ Built for non-engineers who want to ship AI products without waiting for a dev t
 ---
 
 ## note — 日文
+
+**Skill：** `cn-to-jp-note-writer`（生成时必须调用）
 
 **路线：** 日本 B2B × AI プロダクト開発の実践記録
 **语气：** 丁寧だが硬すぎない、実践者の視点
