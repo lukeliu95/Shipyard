@@ -1,8 +1,0 @@
-.DS_Store
-.claude/settings.local.json
-logs/
-*.log
-loop/agents/*.status
-loop/last-run.log
-loop/last-run-summary.md
-.features/*/data/archive/
