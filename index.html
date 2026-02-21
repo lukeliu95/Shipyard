@@ -492,7 +492,7 @@ section{padding:6rem 4rem}
   <div class="hero-glow"></div>
   <div class="hero-badge">
     <span class="dot"></span>
-    W08 RUNNING &mdash; 6 ARTICLES PRODUCED
+    W08 RUNNING &mdash; 15 ARTICLES PRODUCED
   </div>
   <h1 class="reveal">
     <em>Shipyard</em><br>
@@ -509,15 +509,15 @@ section{padding:6rem 4rem}
       <span class="label">Platforms</span>
     </div>
     <div class="hero-stat">
-      <span class="num" data-count="2">0</span>
+      <span class="num" data-count="3">0</span>
       <span class="label">Skills</span>
     </div>
     <div class="hero-stat">
-      <span class="num" data-count="5">0</span>
-      <span class="label">Memory Files</span>
+      <span class="num" data-count="3">0</span>
+      <span class="label">Index Files</span>
     </div>
     <div class="hero-stat">
-      <span class="num" data-count="6">0</span>
+      <span class="num" data-count="15">0</span>
       <span class="label">Articles W08</span>
     </div>
   </div>
@@ -625,7 +625,7 @@ section{padding:6rem 4rem}
         <div class="platform-body">
           <div class="route">方法论沉淀 + 行业洞察</div>
           <p>专业但讲人话，有温度。1500-3000 字长文，方法论系列文。「AI 造物周记」和「非工程师 AI 产品手册」两大系列。</p>
-          <div class="skill-badge none">暂无专用 Skill &mdash; 按规范直接生成</div>
+          <div class="skill-badge">&#9881; cn-to-wechat-article</div>
           <div class="platform-outputs">
             <div class="output-item"><span class="dot-status"></span> AI 造物周记 W08：恐慌里藏着产品人的机会</div>
             <div class="output-item"><span class="dot-status"></span> PM-Quill 上线了：写代码之前的工具</div>
@@ -658,29 +658,37 @@ section{padding:6rem 4rem}
   <div class="container">
     <span class="section-label reveal">04 &mdash; Memory System</span>
     <h2 class="section-title reveal">持久记忆架构</h2>
-    <p class="section-desc reveal">借鉴 claude-mem 的结构化记忆模式。纯 Markdown 文件实现持久记忆——每次生成后必须更新，每次会话开始必须读取。</p>
+    <p class="section-desc reveal">纯 Markdown 文件实现持久记忆。渐进式三层读取——先读 Tier 1 索引获取全貌，按需下钻到具体文件，避免每次会话消耗大量上下文。</p>
 
     <div class="memory-arch reveal">
       <div class="memory-files">
         <div class="mem-file active" data-target="mem-index">
           <span class="icon">&#9670;</span>
-          <div><div class="name">index.md</div><div class="purpose">总索引 + 统计摘要</div></div>
+          <div><div class="name">index.md</div><div class="purpose">Tier 1 — 总入口（必读）</div></div>
         </div>
-        <div class="mem-file" data-target="mem-content">
+        <div class="mem-file" data-target="mem-input-index">
           <span class="icon">&#9670;</span>
-          <div><div class="name">content-log.md</div><div class="purpose">内容生产记录</div></div>
+          <div><div class="name">input/INDEX.md</div><div class="purpose">Tier 2 — 素材总索引</div></div>
         </div>
-        <div class="mem-file" data-target="mem-decisions">
+        <div class="mem-file" data-target="mem-output-index">
           <span class="icon">&#9670;</span>
-          <div><div class="name">decisions.md</div><div class="purpose">决策 why 记录</div></div>
-        </div>
-        <div class="mem-file" data-target="mem-patterns">
-          <span class="icon">&#9670;</span>
-          <div><div class="name">patterns.md</div><div class="purpose">模式积累</div></div>
+          <div><div class="name">output/INDEX.md</div><div class="purpose">Tier 2 — 产出 + 话题地图</div></div>
         </div>
         <div class="mem-file" data-target="mem-weekly">
           <span class="icon">&#9670;</span>
-          <div><div class="name">weekly-state.md</div><div class="purpose">本周运营状态</div></div>
+          <div><div class="name">weekly-state.md</div><div class="purpose">Tier 2 — 本周运营状态</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-content">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">content-log.md</div><div class="purpose">Tier 3 — 完整生产记录</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-patterns">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">patterns.md</div><div class="purpose">Tier 2 — 模式积累</div></div>
+        </div>
+        <div class="mem-file" data-target="mem-decisions">
+          <span class="icon">&#9670;</span>
+          <div><div class="name">decisions.md</div><div class="purpose">Tier 3 — 决策 why 记录</div></div>
         </div>
       </div>
 
@@ -692,7 +700,7 @@ section{padding:6rem 4rem}
         <div class="memory-detail-body" id="mem-detail-body">
           <p>记忆系统的入口文件。包含所有记忆文件的索引、统计摘要（总内容数、各平台/内容线分布、本周产出进度）。</p>
           <p style="margin-top:1rem">Agent 每次启动时首先读取此文件，快速获取全局状态。类似 claude-mem 的 <strong>渐进式上下文注入</strong>——先读摘要，需要时再深入具体文件。</p>
-          <p style="margin-top:1rem">当前状态：<code>总内容 6</code> <code>Substack 2</code> <code>公众号 2</code> <code>note 2</code> <code>本周 6/5-7 ✅</code></p>
+          <p style="margin-top:1rem">当前状态：<code>总内容 15</code> <code>Substack 5</code> <code>公众号 5</code> <code>note 5</code> <code>本周 15/5-7 ✅✅</code></p>
         </div>
       </div>
     </div>
@@ -751,13 +759,14 @@ section{padding:6rem 4rem}
       <div class="loop-step">
         <div class="step-icon"><span class="step-num">05</span><span class="step-label">Memory</span></div>
         <div>
-          <h4>更新记忆</h4>
-          <p>追加 content-log &rarr; 记录 decisions &rarr; 更新 weekly-state &rarr; 同步 index 统计 &rarr; 如有新模式则更新 patterns。</p>
+          <h4>更新三层索引</h4>
+          <p>追加 content-log &rarr; 更新 output/INDEX.md（新行 + 话题地图）&rarr; 更新 input/INDEX.md（标记 done）&rarr; 同步 memory/index.md 统计 &rarr; 更新 weekly-state &rarr; 如有决策/模式则更新对应文件。</p>
           <div class="actions">
             <span class="action-tag">content-log.md</span>
-            <span class="action-tag">decisions.md</span>
+            <span class="action-tag">output/INDEX.md</span>
+            <span class="action-tag">input/INDEX.md</span>
+            <span class="action-tag">memory/index.md</span>
             <span class="action-tag">weekly-state.md</span>
-            <span class="action-tag">index.md</span>
           </div>
         </div>
       </div>
@@ -801,26 +810,27 @@ section{padding:6rem 4rem}
 │   ├── <span class="file">user.md</span>            <span class="comment"># Alan 的画像和素材来源</span>
 │   └── <span class="file">platform-rules.md</span>  <span class="comment"># 三平台内容规范 + 写法公式</span>
 ├── <span class="dir">memory/</span>                <span class="comment"># 持久记忆系统</span>
-│   ├── <span class="file">index.md</span>           <span class="comment"># 记忆总索引 + 统计</span>
-│   ├── <span class="file">content-log.md</span>     <span class="comment"># 内容生产记录（核心记忆）</span>
-│   ├── <span class="file">decisions.md</span>       <span class="comment"># 决策 why 记录</span>
-│   ├── <span class="file">patterns.md</span>        <span class="comment"># 可复用模式积累</span>
-│   └── <span class="file">weekly-state.md</span>    <span class="comment"># 本周运营状态</span>
-├── <span class="dir">loop/</span>                  <span class="comment"># 自动化循环系统</span>
-│   ├── <span class="file">loop-protocol.md</span>   <span class="comment"># 循环协议</span>
-│   └── <span class="file">content-log-template.md</span>
-├── <span class="dir">.claude/skills/</span>        <span class="comment"># 平台专用 Skill</span>
-│   ├── <span class="highlight">cn-to-substack-essay.skill</span>
-│   └── <span class="highlight">cn-to-jp-note-writer.skill</span>
-├── <span class="dir">output/</span>                <span class="comment"># 生成的内容文件</span>
+│   ├── <span class="highlight">index.md</span>           <span class="comment"># ← Tier 1 总入口（每次必读）</span>
+│   ├── <span class="file">weekly-state.md</span>    <span class="comment"># Tier 2 — 本周运营状态</span>
+│   ├── <span class="file">patterns.md</span>        <span class="comment"># Tier 2 — 可复用模式积累</span>
+│   ├── <span class="file">content-log.md</span>     <span class="comment"># Tier 3 — 完整生产记录</span>
+│   └── <span class="file">decisions.md</span>       <span class="comment"># Tier 3 — 决策 why 记录</span>
+├── <span class="dir">output/</span>                <span class="comment"># 内容成品库</span>
+│   ├── <span class="highlight">INDEX.md</span>           <span class="comment"># ← 产出总索引 + 话题覆盖地图</span>
 │   ├── <span class="dir">substack/</span>          <span class="comment"># 英文 Substack 长文</span>
 │   ├── <span class="dir">wechat/</span>            <span class="comment"># 公众号文章</span>
 │   └── <span class="dir">note/</span>              <span class="comment"># note 日文文章</span>
 ├── <span class="dir">input/</span>                 <span class="comment"># 素材投喂入口</span>
+│   ├── <span class="highlight">INDEX.md</span>           <span class="comment"># ← 素材总索引 + 处理状态</span>
 │   ├── <span class="dir">signals/</span>           <span class="comment"># 简报数据</span>
 │   ├── <span class="dir">build-logs/</span>        <span class="comment"># Build Log 素材</span>
-│   └── <span class="dir">thoughts/</span>          <span class="comment"># 产品思考碎片</span>
-└── <span class="dir">docs/</span>                  <span class="comment"># 设计文档</span>
+│   └── <span class="dir">thoughts/</span>          <span class="comment"># think-*.md / todo-*.md</span>
+├── <span class="dir">loop/</span>                  <span class="comment"># 自动化循环系统</span>
+│   └── <span class="file">loop-protocol.md</span>   <span class="comment"># 循环协议</span>
+└── <span class="dir">.claude/skills/</span>        <span class="comment"># 平台专用 Skill</span>
+    ├── <span class="highlight">cn-to-substack-essay</span>
+    ├── <span class="highlight">cn-to-wechat-article</span>
+    └── <span class="highlight">cn-to-jp-note-writer</span>
 </div>
   </div>
 </section>
@@ -832,10 +842,10 @@ section{padding:6rem 4rem}
     <h2 class="section-title reveal">W08 产出仪表盘</h2>
 
     <div class="dash-grid reveal">
-      <div class="dash-card"><div class="dash-num" data-count="6">0</div><div class="dash-label">Total Articles</div></div>
-      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">Substack</div></div>
-      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">WeChat</div></div>
-      <div class="dash-card"><div class="dash-num" data-count="2">0</div><div class="dash-label">note.com</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="15">0</div><div class="dash-label">Total Articles</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="5">0</div><div class="dash-label">Substack</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="5">0</div><div class="dash-label">WeChat</div></div>
+      <div class="dash-card"><div class="dash-num" data-count="5">0</div><div class="dash-label">note.com</div></div>
     </div>
 
     <div class="recent-articles reveal">
@@ -843,45 +853,45 @@ section{padding:6rem 4rem}
         <span>#</span><span>Title</span><span>Platform</span><span>Type</span><span>Status</span>
       </div>
       <div class="article-row">
-        <span class="id">#001</span>
-        <span class="title-col">The AI Panic Is Really a Pricing Power Test</span>
-        <span class="platform-tag tag-substack">Substack</span>
-        <span class="type-col">Signal</span>
-        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
-      </div>
-      <div class="article-row">
-        <span class="id">#002</span>
-        <span class="title-col">AI 造物周记 W08：恐慌里藏着产品人的机会</span>
+        <span class="id">#015</span>
+        <span class="title-col">我的 AI 简报系统，昨天免费升级了</span>
         <span class="platform-tag tag-wechat">WeChat</span>
         <span class="type-col">Signal</span>
         <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
       </div>
       <div class="article-row">
-        <span class="id">#003</span>
-        <span class="title-col">AI恐慌相場から見える「価格決定力」の話</span>
-        <span class="platform-tag tag-note">note</span>
+        <span class="id">#013</span>
+        <span class="title-col">The Vibe Coding Hangover</span>
+        <span class="platform-tag tag-substack">Substack</span>
         <span class="type-col">Signal</span>
         <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
       </div>
       <div class="article-row">
+        <span class="id">#012</span>
+        <span class="title-col">从 Vibe Coding 到规范先行</span>
+        <span class="platform-tag tag-wechat">WeChat</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#009</span>
+        <span class="title-col">56% of Companies Get Zero Return From AI</span>
+        <span class="platform-tag tag-substack">Substack</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row">
+        <span class="id">#008</span>
+        <span class="title-col">日本の「3兆円AI投資」が、B2Bデータ市場を変える</span>
+        <span class="platform-tag tag-note">note</span>
+        <span class="type-col">Signal</span>
+        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
+      </div>
+      <div class="article-row" style="border-bottom:1px solid var(--border)">
         <span class="id">#004</span>
         <span class="title-col">I Shipped a Product Decision Tool...</span>
         <span class="platform-tag tag-substack">Substack</span>
         <span class="type-col">Build Log</span>
-        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
-      </div>
-      <div class="article-row">
-        <span class="id">#005</span>
-        <span class="title-col">PM-Quill 上线了：写代码之前的工具</span>
-        <span class="platform-tag tag-wechat">WeChat</span>
-        <span class="type-col">Build Log</span>
-        <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
-      </div>
-      <div class="article-row" style="border-bottom:1px solid var(--border)">
-        <span class="id">#006</span>
-        <span class="title-col">QiitaのClaudeCodeランキングから見えた...</span>
-        <span class="platform-tag tag-note">note</span>
-        <span class="type-col">Signal</span>
         <span class="status-col"><span class="status-dot status-draft"></span> Draft</span>
       </div>
     </div>
@@ -979,28 +989,38 @@ counters.forEach(el => counterObserver.observe(el));
 const memData = {
   'mem-index': {
     title: 'memory/index.md',
-    timing: '每次会话启动时读取',
-    body: '<p>记忆系统的入口文件。包含所有记忆文件的索引、统计摘要（总内容数、各平台/内容线分布、本周产出进度）。</p><p style="margin-top:1rem">Agent 每次启动时首先读取此文件，快速获取全局状态。类似 claude-mem 的<strong>渐进式上下文注入</strong>——先读摘要，需要时再深入具体文件。</p><p style="margin-top:1rem">当前状态：<code>总内容 6</code> <code>Substack 2</code> <code>公众号 2</code> <code>note 2</code> <code>本周 6/5-7 ✅</code></p>'
+    timing: 'Tier 1 — 每次会话必读（唯一必读文件）',
+    body: '<p><strong>渐进式读取的总入口。</strong>Agent 每次启动只读这一个文件，根据任务需要再按指引下钻。</p><p style="margin-top:1rem">包含：渐进式读取指南（Tier 1/2/3 说明）、统计摘要、本周快照、最近5条内容、完整记忆文件索引。</p><p style="margin-top:1rem">当前状态：<code>总内容 15</code> <code>Substack 5</code> <code>公众号 5</code> <code>note 5</code> <code>本周 15/5-7 ✅✅</code></p>'
   },
-  'mem-content': {
-    title: 'memory/content-log.md',
-    timing: '每次生成前读取（去重） / 生成后追加',
-    body: '<p><strong>核心记忆文件。</strong>结构化记录每次生成的内容：日期、平台、内容线、标题、输入素材、Skill、关联内容、状态、决策备注。</p><p style="margin-top:1rem">去重规则：同一信号源 <code>7 天</code>内不重复，同一方法论 <code>30 天</code>内不重复，同一产品决策不在同一平台重复发布。</p><p style="margin-top:1rem">跨平台联动通过 <code>关联内容</code> 字段追踪：如 #001(Substack) ↔ #002(公众号) ↔ #003(note) 来自同一素材但角度不同。</p>'
+  'mem-input-index': {
+    title: 'input/INDEX.md',
+    timing: 'Tier 2 — 需要查素材/处理状态时读取',
+    body: '<p>所有 input/ 素材的一行摘要 + 处理状态追踪。</p><p style="margin-top:1rem">三个部分：<strong>signals/</strong>（外部信号简报）、<strong>build-logs/</strong>（产品迭代记录）、<strong>thoughts/</strong>（think-观点 / todo-选题池）。</p><p style="margin-top:1rem">状态标记：<code>✅ done</code> 已消耗 | <code>⏳ queued</code> 待处理 | <code>⏭ skipped</code> 决定不做。</p><p style="margin-top:1rem">当前：6 条信号全部 done，build-logs 和 thoughts 为空。</p>'
   },
-  'mem-decisions': {
-    title: 'memory/decisions.md',
-    timing: '做出关键决策后追加',
-    body: '<p>记录内容生产中的关键决策：<strong>为什么选这个角度、为什么放弃某个方向、为什么调整语气。</strong></p><p style="margin-top:1rem">每条记录包含：场景（什么情况）、选择（选了什么）、放弃（放弃了什么）、原因（为什么）。</p><p style="margin-top:1rem">示例：第二轮素材放弃 Apple+Gemini 做主线，因为跟 Alan 产品无直接决策连接；SaaSpocalypse 第一轮已覆盖（7天去重）。</p>'
-  },
-  'mem-patterns': {
-    title: 'memory/patterns.md',
-    timing: '月循环时提炼 / 生成内容时参考',
-    body: '<p>从多次内容生产中提炼的<strong>可复用模式</strong>。随实践积累，包括三个维度：</p><p style="margin-top:1rem"><strong>素材→平台匹配模式</strong>：什么类型的素材适合什么平台</p><p style="margin-top:.5rem"><strong>高效写法模式</strong>：什么角度效果好</p><p style="margin-top:.5rem"><strong>踩坑记录</strong>：什么写法要避免</p><p style="margin-top:1rem">目前为空，等积累足够多的生产经验后开始提炼。</p>'
+  'mem-output-index': {
+    title: 'output/INDEX.md',
+    timing: 'Tier 2 — 去重检查/话题覆盖分析时读取',
+    body: '<p>所有产出内容的一览表 + <strong>话题覆盖地图</strong>（去重神器）。</p><p style="margin-top:1rem">三个平台分组表格：Substack 5 篇、公众号 5 篇、note 5 篇。每行包含 ID、日期、标题、内容线、状态、文件路径。</p><p style="margin-top:1rem">话题覆盖地图一眼看出哪个话题在哪个平台已经写过，生成前快速扫描避免重复。当前覆盖：AI 恐慌/定价权、PM-Quill、Agent 基础设施、AI 二极化、Vibe Coding、Anthropic 升级、日本3兆円。</p>'
   },
   'mem-weekly': {
     title: 'memory/weekly-state.md',
-    timing: '每次会话启动时读取 / 生成后更新',
-    body: '<p>当前周的运营状态追踪。每周一重置。包含：</p><p style="margin-top:1rem"><strong>产出进度表</strong>：各平台目标 vs 已完成</p><p style="margin-top:.5rem"><strong>素材队列</strong>：所有待处理素材的状态（queued → processing → generated → skipped）</p><p style="margin-top:.5rem"><strong>周节奏</strong>：周一简报→周二 Signal→周三 Build Log→周四产出→周五补缺</p><p style="margin-top:1rem">当前 W08：<code>Substack 2/1-2 ✅</code> <code>公众号 2/1 ✅</code> <code>note 2/0-1 ✅</code></p>'
+    timing: 'Tier 2 — 需要本周进度细节时读取',
+    body: '<p>当前周的运营状态追踪。每周一重置。包含：</p><p style="margin-top:1rem"><strong>产出进度表</strong>：各平台目标 vs 已完成</p><p style="margin-top:.5rem"><strong>素材队列</strong>：所有待处理素材的状态（queued → processing → generated → skipped）</p><p style="margin-top:.5rem"><strong>周节奏</strong>：周一简报→周二 Signal→周三 Build Log→周四产出→周五补缺</p><p style="margin-top:1rem">W08 最终：<code>Substack 5/1-2 ✅✅</code> <code>公众号 5/1 ✅✅</code> <code>note 5/0-1 ✅✅</code></p>'
+  },
+  'mem-content': {
+    title: 'memory/content-log.md',
+    timing: 'Tier 3 — 需要完整生产记录/详细追溯时读取',
+    body: '<p><strong>核心记忆文件。</strong>结构化记录每次生成的内容：日期、平台、内容线、标题、输入素材、Skill、关联内容、状态、决策备注。</p><p style="margin-top:1rem">去重规则：同一信号源 <code>7 天</code>内不重复，同一方法论 <code>30 天</code>内不重复，同一产品决策不在同一平台重复发布。</p><p style="margin-top:1rem">跨平台联动通过 <code>关联内容</code> 字段追踪：如 #013(Substack) ↔ #012(公众号) ↔ #014(note) 来自同一 Vibe Coding 素材但角度不同。</p>'
+  },
+  'mem-patterns': {
+    title: 'memory/patterns.md',
+    timing: 'Tier 2 — 生成内容时参考 / 月循环时更新',
+    body: '<p>从多次内容生产中提炼的<strong>可复用模式</strong>。包括三个维度：</p><p style="margin-top:1rem"><strong>P001</strong>：mckinsey-analyst 前置分析显著提升内容质量——信号密度高时（&gt;3 条强信号）优先调用。</p><p style="margin-top:.5rem"><strong>P002</strong>：日本市场内容必须有本土数据锚点——法人番号、日经数据、日本企业投资数字等。</p><p style="margin-top:1rem">更多模式随实践积累。</p>'
+  },
+  'mem-decisions': {
+    title: 'memory/decisions.md',
+    timing: 'Tier 3 — 遇到类似决策时参考 / 做出关键决策后追加',
+    body: '<p>记录内容生产中的关键决策：<strong>为什么选这个角度、为什么放弃某个方向、为什么调整语气。</strong></p><p style="margin-top:1rem">每条记录包含：场景（什么情况）、选择（选了什么）、放弃（放弃了什么）、原因（为什么）。</p><p style="margin-top:1rem">示例：第二轮素材放弃 Apple+Gemini 做主线，因为跟产品无直接决策连接；SaaSpocalypse 第一轮已覆盖（7天去重规则触发）。</p>'
   }
 };
 
